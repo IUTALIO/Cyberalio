@@ -295,6 +295,83 @@
 
     .contact-val { font-size: 0.9rem; font-weight: 600; }
 
+    
+    /* PROJETS */
+    .project-card {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .project-date {
+      font-size: 0.72rem; font-weight: 500;
+      color: var(--muted); letter-spacing: 0.04em;
+      margin-bottom: 0.3rem;
+    }
+
+    .project-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem; font-weight: 400;
+      margin-bottom: 0.2rem;
+    }
+
+    .project-org {
+      font-size: 0.78rem; color: var(--accent); font-weight: 500;
+    }
+
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      justify-content: flex-end;
+    }
+
+    .ptag {
+      font-size: 0.7rem; font-weight: 500;
+      padding: 0.25rem 0.7rem;
+      background: var(--bg2); border: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .project-desc {
+      font-size: 0.85rem; color: var(--muted);
+      line-height: 1.8; font-weight: 300;
+      max-width: 760px; margin-bottom: 1.5rem;
+    }
+
+    .project-files-label {
+      font-size: 0.68rem; font-weight: 500;
+      color: var(--muted); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 0.6rem;
+    }
+
+    .project-files-row {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+    }
+
+    .file-link {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font-size: 0.78rem; font-weight: 500;
+      padding: 0.45rem 1rem;
+      background: white; border: 1px solid var(--border);
+      text-decoration: none; color: var(--text);
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .file-link:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .file-link svg { flex-shrink: 0; }
+
     /* FOOTER */
     footer {
       border-top: 1px solid var(--border);
@@ -350,6 +427,196 @@
     <p class="hero-desc">
       Étudiant en BUT R&T parcours Cybersécurité à l'IUT d'Auxerre. Passionné par les infrastructures, la sécurité informatique et les systèmes complexes.
     </p>
+<!-- PROJETS -->
+  <section id="projets" class="section reveal">
+    <div class="section-header">
+      <div class="section-num">04 — Projets</div>
+      <h2>Projets académiques</h2>
+    </div>
+
+    <!-- Projet 1 : Escape Game -->
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <div class="project-date">Mai 2025 – Juil. 2025</div>
+          <h3 class="project-title">Escape Game — Mission Cybersécurité</h3>
+          <div class="project-org">IUT Dijon-Auxerre-Nevers · Projet intégratif</div>
+        </div>
+        <div class="project-tags">
+          <span class="ptag">Cybersécurité</span>
+          <span class="ptag">Pédagogie</span>
+          <span class="ptag">Travail d'équipe</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Conception d'un atelier ludique de sensibilisation à la cybersécurité à destination du grand public. À travers une série d'énigmes, les visiteurs explorent les notions clés : gestion des mots de passe, cryptographie, phishing, réseaux sociaux, ingénierie sociale et Wi-Fi. Dispositif sous forme d'escape game thématique — instructif, amusant et accessible sans connaissances techniques préalables.
+      </p>
+      <div class="project-files">
+        <div class="project-files-label">Documents</div>
+        <div class="project-files-row">
+          <a class="file-link" href="assets/pdfs/rapport-escape-game.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Rapport du projet
+          </a>
+          <a class="file-link" href="assets/pdfs/enigmes.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Les énigmes
+          </a>
+          <a class="file-link" href="assets/pdfs/certificat-achevement.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Certificat d'achèvement
+          </a>
+          <a class="file-link" href="assets/pdfs/presentation-escape-game.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Présentation
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet 2 : SAE 2.01 -->
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <div class="project-date">Mai 2025 – Juin 2025</div>
+          <h3 class="project-title">SAÉ 2.01 — Réseau d'Entreprise Multi-Sites</h3>
+          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+        </div>
+        <div class="project-tags">
+          <span class="ptag">VLAN</span>
+          <span class="ptag">Active Directory</span>
+          <span class="ptag">IPv4 / IPv6</span>
+          <span class="ptag">GRE</span>
+          <span class="ptag">OSPF</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Conception et mise en place d'un réseau d'entreprise multi-sites pour une société de textile. Architecture avec site client (PC industriels) et site fournisseur (DMZ, pare-feu, WAN). Mise en œuvre : plan d'adressage IPv4/IPv6, segmentation VLAN, routage inter-VLAN, ACL, serveurs DHCP/DNS/AD, DMZ, NAT/PAT, tunnel GRE point-à-point et routage OSPF.
+      </p>
+      <div class="project-files">
+        <div class="project-files-label">Documents & Médias</div>
+        <div class="project-files-row">
+          <a class="file-link" href="assets/pdfs/presentation-sae201.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Présentation SAE 201
+          </a>
+          <a class="file-link" href="assets/pdfs/dossier-technique-sae201.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Dossier Technique
+          </a>
+          <a class="file-link img-link" href="assets/images/schema-logique-sae201.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Schéma logique
+          </a>
+          <a class="file-link img-link" href="assets/images/schema-physique-sae201.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Schéma physique
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet 3 : SAE 2.03 -->
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <div class="project-date">Mai 2025 – Juin 2025</div>
+          <h3 class="project-title">SAÉ 2.03 — Gestion des Commandes Sport en Ligne</h3>
+          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+        </div>
+        <div class="project-tags">
+          <span class="ptag">PHP</span>
+          <span class="ptag">MySQL</span>
+          <span class="ptag">HTML</span>
+          <span class="ptag">Bootstrap</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Développement d'un système de gestion des commandes pour un site e-commerce de sport. Base de données SQL (commandes, clients, produits, stocks, entrepôts, employés). Pages PHP pour affichage, ajout, suppression et recherche multi-critères. Résultats affichés en tableaux HTML avec coloration alternée et graphiques.
+      </p>
+      <div class="project-files">
+        <div class="project-files-label">Documents</div>
+        <div class="project-files-row">
+          <a class="file-link" href="assets/pdfs/presentation-sae203.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Présentation SAE 203
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet 4 : Visite Orange -->
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <div class="project-date">Avril 2025</div>
+          <h3 class="project-title">Visite des Locaux d'Orange — Auxerre</h3>
+          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+        </div>
+        <div class="project-tags">
+          <span class="ptag">Fibre optique</span>
+          <span class="ptag">Câblage cuivre</span>
+          <span class="ptag">Télécom</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Visite des installations techniques d'Orange à Auxerre dans le cadre de la formation. Observation de la boucle locale fibre et cuivre, échanges avec des techniciens, découverte des étapes de traitement du signal depuis les clients jusqu'au cœur du réseau. Vision concrète des infrastructures télécom et du métier.
+      </p>
+      <div class="project-files">
+        <div class="project-files-label">Documents</div>
+        <div class="project-files-row">
+          <a class="file-link" href="assets/pdfs/visite-orange.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Visite Locaux Orange
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet 5 : SAE 1.02 -->
+    <div class="project-card" style="border-bottom:none;">
+      <div class="project-header">
+        <div>
+          <div class="project-date">Janv. 2025 – Févr. 2025</div>
+          <h3 class="project-title">SAÉ 1.02 — Conception Réseau Bâtiment IUT</h3>
+          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+        </div>
+        <div class="project-tags">
+          <span class="ptag">VLAN</span>
+          <span class="ptag">DHCP</span>
+          <span class="ptag">Wi-Fi</span>
+          <span class="ptag">IPv4</span>
+          <span class="ptag">Windows Server</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Conception réseau d'un futur bâtiment R&T à l'IUT d'Auxerre. Environnement multi-VLAN : DSI, salles TP/TD/CM, imprimante, Wi-Fi, serveurs. Mise en place d'un serveur DHCP, AD-DS Windows Server, politique de sécurité, points d'accès Wi-Fi chiffrés. Câblage conforme aux normes, plan d'adressage IPv4 complet.
+      </p>
+      <div class="project-files">
+        <div class="project-files-label">Documents & Médias</div>
+        <div class="project-files-row">
+          <a class="file-link" href="assets/pdfs/document-sae102.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Document du projet
+          </a>
+          <a class="file-link img-link" href="assets/images/schema-logique-sae102.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Schéma logique
+          </a>
+          <a class="file-link img-link" href="assets/images/schema-physique-sae102.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Schéma physique
+          </a>
+          <a class="file-link img-link" href="assets/images/plan-adressage-sae102.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Plan d'adressage IPv4
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
     <div class="hero-cta">
       <a href="#contact" class="btn btn-dark">Me contacter</a>
       <a href="#experience" class="btn btn-light">Mon parcours</a>
