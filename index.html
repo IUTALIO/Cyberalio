@@ -1,818 +1,603 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hissein Alio — Cybersécurité & Réseaux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0a0c10;
-      --surface: #0f1218;
-      --surface2: #161b24;
-      --border: #1e2535;
-      --accent: #00e5ff;
-      --accent2: #7c3aed;
-      --accent3: #10b981;
-      --text: #e2e8f0;
-      --muted: #64748b;
-      --danger: #f43f5e;
+      --bg: #fafaf8;
+      --bg2: #f4f3ef;
+      --text: #1a1a18;
+      --muted: #888880;
+      --border: #e5e4de;
+      --accent: #1a6b4a;
+      --accent-light: #e8f4ee;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Syne', sans-serif;
-      overflow-x: hidden;
-    }
-
-    /* Grid background */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
     }
 
     /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 4rem;
-      background: rgba(10,12,16,0.85);
-      backdrop-filter: blur(12px);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 5vw;
+      background: rgba(250,250,248,0.93);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
     }
 
     .nav-logo {
-      font-family: 'Space Mono', monospace;
-      font-size: 1rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem; color: var(--text);
     }
 
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
 
     .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-size: 0.82rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.04em;
       transition: color 0.2s;
     }
 
-    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover { color: var(--text); }
 
     /* HERO */
     #hero {
-      position: relative;
       min-height: 100vh;
-      display: flex;
+      display: grid; grid-template-columns: 1fr 1fr;
       align-items: center;
-      padding: 8rem 4rem 4rem;
-      overflow: hidden;
+      padding: 8rem 5vw 5rem; gap: 4rem;
     }
 
-    .hero-glow {
-      position: absolute;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent-light); color: var(--accent);
+      font-size: 0.75rem; font-weight: 500;
+      padding: 0.35rem 0.9rem; border-radius: 100px;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.5s ease both;
     }
 
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
+    .hero-badge-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease infinite;
     }
 
-    .hero-tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--accent);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      border: 1px solid rgba(0,229,255,0.3);
-      display: inline-block;
-      padding: 0.35rem 0.9rem;
-      border-radius: 2px;
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.6s ease both;
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
     }
 
     h1 {
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      font-weight: 800;
-      line-height: 1.05;
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 400; line-height: 1.08;
       letter-spacing: -0.02em;
-      animation: fadeUp 0.6s 0.1s ease both;
+      animation: fadeUp 0.5s 0.08s ease both;
     }
 
-    h1 .name-accent {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    h1 em { font-style: italic; color: var(--accent); }
 
-    .hero-subtitle {
-      margin-top: 1.5rem;
-      font-size: 1.1rem;
-      color: var(--muted);
-      max-width: 520px;
-      line-height: 1.7;
-      animation: fadeUp 0.6s 0.2s ease both;
+    .hero-desc {
+      margin-top: 1.75rem; font-size: 0.95rem; font-weight: 300;
+      color: var(--muted); max-width: 440px; line-height: 1.8;
+      animation: fadeUp 0.5s 0.16s ease both;
     }
 
     .hero-cta {
-      margin-top: 2.5rem;
-      display: flex;
-      gap: 1rem;
+      margin-top: 2.5rem; display: flex; gap: 1rem;
+      animation: fadeUp 0.5s 0.24s ease both;
+    }
+
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.03em; padding: 0.75rem 1.75rem;
+      border: 1px solid var(--text);
+      text-decoration: none; display: inline-block;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .btn-dark { background: var(--text); color: var(--bg); }
+    .btn-dark:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
+    .btn-light { background: transparent; color: var(--text); }
+    .btn-light:hover { background: var(--bg2); transform: translateY(-1px); }
+
+    .hero-card {
+      background: white; border: 1px solid var(--border);
+      padding: 2.5rem;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.04);
+      animation: fadeUp 0.5s 0.3s ease both;
+    }
+
+    .hero-card-stats {
+      display: flex; gap: 2rem;
+      padding-bottom: 2rem; margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
       flex-wrap: wrap;
-      animation: fadeUp 0.6s 0.3s ease both;
     }
 
-    .btn-primary {
-      background: var(--accent);
-      color: #0a0c10;
-      border: none;
-      padding: 0.8rem 2rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.9rem;
-      letter-spacing: 0.05em;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: opacity 0.2s, transform 0.2s;
+    .stat-label {
+      font-size: 0.68rem; font-weight: 500; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem;
     }
 
-    .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+    .stat-val { font-size: 0.9rem; font-weight: 600; }
 
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 0.8rem 2rem;
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      font-size: 0.9rem;
-      letter-spacing: 0.05em;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .hero-tag {
+      font-size: 0.72rem; font-weight: 500;
+      padding: 0.3rem 0.8rem;
+      background: var(--bg2); border: 1px solid var(--border);
     }
 
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    /* WRAPPER */
+    .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 5vw; }
 
-    /* Terminal blink */
-    .cursor { animation: blink 1s step-end infinite; }
-    @keyframes blink { 50% { opacity: 0; } }
+    /* SECTION */
+    .section { padding: 6rem 0; border-top: 1px solid var(--border); }
 
-    /* SECTIONS */
-    section {
-      position: relative;
-      z-index: 1;
-      padding: 6rem 4rem;
-      max-width: 1100px;
-      margin: 0 auto;
+    .section-header {
+      display: grid; grid-template-columns: 200px 1fr;
+      gap: 4rem; align-items: start; margin-bottom: 3.5rem;
     }
 
-    .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
+    .section-num {
+      font-size: 0.7rem; font-weight: 500; color: var(--muted);
+      letter-spacing: 0.12em; text-transform: uppercase; padding-top: 0.5rem;
     }
 
-    .section-title {
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 3rem;
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 400; letter-spacing: -0.02em; line-height: 1.2;
     }
 
-    /* SKILLS */
+    /* SKILLS GRID */
     .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
     }
 
     .skill-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 1.75rem;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s;
+      background: white; padding: 2rem;
+      transition: background 0.2s;
     }
 
-    .skill-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: var(--accent);
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.3s;
-    }
+    .skill-card:hover { background: var(--bg2); }
 
-    .skill-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-4px); }
-    .skill-card:hover::before { transform: scaleY(1); }
-
-    .skill-card-icon {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+    .skill-cat {
+      font-size: 0.68rem; font-weight: 500; color: var(--accent);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem;
     }
 
     .skill-card h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-      color: var(--text);
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem; font-weight: 400; margin-bottom: 1rem;
     }
 
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
+    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+    .skill-list li {
+      font-size: 0.82rem; color: var(--muted);
+      padding-left: 0.9rem; position: relative;
     }
 
-    .tag {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      padding: 0.25rem 0.6rem;
-      background: rgba(0,229,255,0.06);
-      border: 1px solid rgba(0,229,255,0.15);
-      color: var(--accent);
-      letter-spacing: 0.05em;
+    .skill-list li::before { content: '–'; position: absolute; left: 0; color: var(--border); }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; }
+
+    .tl-item {
+      display: grid; grid-template-columns: 180px 1fr;
+      gap: 2rem; padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    /* EXPERIENCE */
-    .timeline {
-      position: relative;
-      padding-left: 2rem;
+    .tl-item:last-child { border-bottom: none; }
+
+    .tl-date {
+      font-size: 0.75rem; font-weight: 500; color: var(--muted);
+      line-height: 1.6; padding-top: 0.15rem;
     }
 
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, var(--accent), transparent);
+    .tl-content h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem; font-weight: 400; margin-bottom: 0.2rem;
     }
 
-    .timeline-item {
-      position: relative;
-      padding: 2rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      margin-bottom: 1.5rem;
-      transition: border-color 0.3s;
+    .tl-org { font-size: 0.8rem; color: var(--accent); font-weight: 500; margin-bottom: 1rem; }
+
+    .tl-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .tl-list li {
+      font-size: 0.83rem; color: var(--muted);
+      padding-left: 1rem; position: relative; line-height: 1.6;
     }
 
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -2.5rem;
-      top: 2rem;
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 12px var(--accent);
-    }
+    .tl-list li::before { content: '→'; position: absolute; left: 0; color: var(--border); }
 
-    .timeline-item:hover { border-color: rgba(0,229,255,0.3); }
-
-    .timeline-date {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
-    }
-
-    .timeline-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-
-    .timeline-org {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-
-    .timeline-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .timeline-list li {
-      font-size: 0.85rem;
-      color: var(--muted);
-      padding-left: 1rem;
-      position: relative;
-      line-height: 1.6;
-    }
-
-    .timeline-list li::before {
-      content: '›';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    /* CERTIFICATIONS */
+    /* CERTS */
     .certs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
     }
 
-    .cert-badge {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      transition: border-color 0.3s, transform 0.3s;
+    .cert-item {
+      background: white; padding: 1.5rem 1.75rem;
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      transition: background 0.2s;
     }
 
-    .cert-badge:hover { border-color: rgba(124,58,237,0.5); transform: translateY(-3px); }
+    .cert-item:hover { background: var(--accent-light); }
 
     .cert-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--accent2);
-      flex-shrink: 0;
-      box-shadow: 0 0 8px var(--accent2);
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0; margin-top: 0.45rem;
     }
 
-    .cert-badge span {
-      font-size: 0.8rem;
-      font-weight: 600;
-      line-height: 1.3;
+    .cert-item span { font-size: 0.85rem; font-weight: 500; line-height: 1.4; }
+
+    /* QUALITIES */
+    .q-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+    .q-pill {
+      font-size: 0.82rem; padding: 0.45rem 1.1rem;
+      border: 1px solid var(--border); background: white;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
     }
 
-    /* LANGUAGES */
-    .langs {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+    .q-pill:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+
+    /* LANGS */
+    .langs-row {
+      display: flex; gap: 1px; background: var(--border);
+      border: 1px solid var(--border); width: fit-content;
     }
 
-    .lang-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 1.5rem 2rem;
-      text-align: center;
-      min-width: 140px;
-    }
+    .lang-item { background: white; padding: 1.5rem 2.5rem; text-align: center; }
 
-    .lang-name {
-      font-weight: 700;
-      font-size: 1.1rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .lang-level {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-    }
-
-    /* ABOUT / QUALITIES */
-    .qualities-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    .quality-pill {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1.25rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .quality-pill:hover { border-color: var(--accent3); color: var(--accent3); }
+    .lang-name { font-family: 'DM Serif Display', serif; font-size: 1rem; margin-bottom: 0.2rem; }
+    .lang-lvl { font-size: 0.7rem; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
 
     /* CONTACT */
     .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
     }
 
     .contact-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color 0.3s, transform 0.3s;
+      background: white; padding: 2rem;
+      text-decoration: none; color: var(--text);
+      transition: background 0.2s;
     }
 
-    .contact-item:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .contact-item:hover { background: var(--accent-light); }
 
-    .contact-icon {
-      font-size: 1.3rem;
-      width: 40px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(0,229,255,0.06);
-      border: 1px solid rgba(0,229,255,0.15);
-      flex-shrink: 0;
+    .contact-lbl {
+      font-size: 0.68rem; font-weight: 500; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem;
     }
 
-    .contact-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.2rem;
-    }
-
-    .contact-value {
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
+    .contact-val { font-size: 0.9rem; font-weight: 600; }
 
     /* FOOTER */
     footer {
       border-top: 1px solid var(--border);
-      padding: 2rem 4rem;
-      text-align: center;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
+      padding: 2rem 5vw;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.75rem; color: var(--muted);
     }
 
     /* ANIMATIONS */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+    .reveal {
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
     }
 
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* DIVIDER */
-    .section-divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--border), transparent);
-    }
+    .reveal.show { opacity: 1; transform: none; }
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
+      #hero { grid-template-columns: 1fr; padding: 7rem 5vw 3rem; gap: 2.5rem; }
+      .section-header { grid-template-columns: 1fr; gap: 0.5rem; }
+      .tl-item { grid-template-columns: 1fr; gap: 0.5rem; }
       .nav-links { display: none; }
-      section { padding: 4rem 1.5rem; }
-      #hero { padding: 7rem 1.5rem 3rem; }
-      footer { padding: 1.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">HA<span style="color:var(--muted);">.</span>DEV</div>
-    <ul class="nav-links">
-      <li><a href="#about">Profil</a></li>
-      <li><a href="#skills">Compétences</a></li>
-      <li><a href="#experience">Expérience</a></li>
-      <li><a href="#formation">Formation</a></li>
-      <li><a href="#certifications">Certifications</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<nav>
+  <div class="nav-logo">Hissein Alio</div>
+  <ul class="nav-links">
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#experience">Expérience</a></li>
+    <li><a href="#formation">Formation</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-  <!-- HERO -->
-  <section id="hero" style="max-width:100%; padding-top:0;">
-    <div class="hero-glow"></div>
-    <div class="hero-content">
-      <div class="hero-tag">⬡ Disponible pour alternance — Sept. 2026</div>
-      <h1>
-        <span class="name-accent">Hissein Alio</span><br>
-        Cybersécurité<br>& Réseaux
-      </h1>
-      <p class="hero-subtitle">
-        Étudiant en BUT Réseaux &amp; Télécommunications — parcours <strong style="color:var(--text)">Cybersécurité</strong> à l'IUT d'Auxerre. Passionné par les infrastructures, la sécurité informatique et les systèmes complexes.<span class="cursor" style="color:var(--accent)">_</span>
-      </p>
-      <div class="hero-cta">
-        <a href="#contact" class="btn-primary">Me contacter</a>
-        <a href="#experience" class="btn-ghost">Voir mon parcours</a>
+<div id="hero">
+  <div>
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Disponible · Alternance Sept. 2026
+    </div>
+    <h1>Réseaux &<br><em>Cybersécurité</em></h1>
+    <p class="hero-desc">
+      Étudiant en BUT R&T parcours Cybersécurité à l'IUT d'Auxerre. Passionné par les infrastructures, la sécurité informatique et les systèmes complexes.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-dark">Me contacter</a>
+      <a href="#experience" class="btn btn-light">Voir le parcours</a>
+    </div>
+  </div>
+  <div>
+    <div class="hero-card">
+      <div class="hero-card-stats">
+        <div>
+          <div class="stat-label">Localisation</div>
+          <div class="stat-val">Auxerre, 89</div>
+        </div>
+        <div>
+          <div class="stat-label">Permis</div>
+          <div class="stat-val">Permis B</div>
+        </div>
+        <div>
+          <div class="stat-label">Recherche</div>
+          <div class="stat-val">Alternance 3ème année</div>
+        </div>
+      </div>
+      <div class="stat-label" style="margin-bottom:0.75rem;">Certifications clés</div>
+      <div class="hero-tags">
+        <span class="hero-tag">Cisco CCNA 1 & 3</span>
+        <span class="hero-tag">Fortinet NSE1 & 2</span>
+        <span class="hero-tag">ANSSI MOOC</span>
+        <span class="hero-tag">3CX Basic</span>
+        <span class="hero-tag">PIX</span>
+        <span class="hero-tag">RGPD CNIL</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <section id="about" class="section reveal">
+    <div class="section-header">
+      <div class="section-num">01 — Profil</div>
+      <h2>Qui suis-je ?</h2>
+    </div>
+    <p style="color:var(--muted); max-width:620px; font-size:0.95rem; line-height:1.85; font-weight:300; margin-bottom:2.5rem;">
+      Je vous adresse ma candidature pour une alternance d'un an en contrat d'apprentissage à la rentrée de septembre 2026. Attiré par les technologies de l'information et le sens du service, j'aspire à contribuer à des projets innovants tout en développant mes compétences dans un environnement professionnel exigeant.
+    </p>
+    <div style="font-size:0.68rem;font-weight:500;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Qualités</div>
+    <div class="q-row">
+      <span class="q-pill">Curieux</span>
+      <span class="q-pill">Rigoureux</span>
+      <span class="q-pill">Autonome</span>
+      <span class="q-pill">Esprit d'équipe</span>
+      <span class="q-pill">Esprit d'analyse</span>
+      <span class="q-pill">Sens du contact</span>
+      <span class="q-pill">Sens de l'organisation</span>
+      <span class="q-pill">Capacité d'adaptation</span>
+      <span class="q-pill">Communication claire</span>
+    </div>
+  </section>
+
+  <section id="skills" class="section reveal">
+    <div class="section-header">
+      <div class="section-num">02 — Compétences</div>
+      <h2>Compétences techniques</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-cat">Réseaux</div>
+        <h3>Protocoles & Infrastructure</h3>
+        <ul class="skill-list">
+          <li>TCP/IP, DNS, DHCP</li>
+          <li>VPN, VLAN</li>
+          <li>Dépannage réseau</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Systèmes</div>
+        <h3>OS & Environnements</h3>
+        <ul class="skill-list">
+          <li>Windows Server 2016 / 2019 / 2022</li>
+          <li>Windows 10 / 11</li>
+          <li>Linux</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Sécurité</div>
+        <h3>Active Directory & Protection</h3>
+        <ul class="skill-list">
+          <li>AD — utilisateurs, droits, GPO, OU</li>
+          <li>WithSecure (antivirus)</li>
+          <li>Sécurisation équipements</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Virtualisation</div>
+        <h3>VMs & Hyperviseurs</h3>
+        <ul class="skill-list">
+          <li>VMware, Hyper-V, ESXi</li>
+          <li>VMs Linux / Windows</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Supervision & ITSM</div>
+        <h3>Monitoring & Ticketing</h3>
+        <ul class="skill-list">
+          <li>Zabbix, Centreon</li>
+          <li>GLPI, ServiceNow</li>
+          <li>Ivanti (masterisation)</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Microsoft 365 & Sauvegarde</div>
+        <h3>Cloud & Backup</h3>
+        <ul class="skill-list">
+          <li>Outlook, Exchange, Teams, OneDrive</li>
+          <li>Intune</li>
+          <li>Veeam, NAS Synology</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
-
-  <!-- ABOUT -->
-  <section id="about" style="padding-top:5rem;">
-    <div class="fade-in">
-      <div class="section-label">// 01 — Profil</div>
-      <h2 class="section-title">Qui suis-je ?</h2>
-      <p style="color:var(--muted); max-width:680px; line-height:1.9; font-size:0.95rem; margin-bottom:2.5rem;">
-        Je vous adresse ma candidature pour une alternance d'un an en contrat d'apprentissage à la rentrée de septembre 2026. Ayant le sens du service et attiré par les technologies de l'information, j'aspire à acquérir une expérience unique afin de développer mes compétences et contribuer de manière significative à des projets innovants.
-      </p>
-      <div class="section-label" style="margin-bottom:1rem;">Qualités personnelles</div>
-      <div class="qualities-grid">
-        <span class="quality-pill">Curieux</span>
-        <span class="quality-pill">Rigoureux</span>
-        <span class="quality-pill">Autonome</span>
-        <span class="quality-pill">Esprit d'équipe</span>
-        <span class="quality-pill">Esprit d'analyse</span>
-        <span class="quality-pill">Sens du contact</span>
-        <span class="quality-pill">Sens de l'organisation</span>
-        <span class="quality-pill">Capacité d'adaptation</span>
-        <span class="quality-pill">Communication claire</span>
-      </div>
+  <section id="experience" class="section reveal">
+    <div class="section-header">
+      <div class="section-num">03 — Expérience</div>
+      <h2>Parcours professionnel</h2>
     </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="fade-in">
-      <div class="section-label">// 02 — Compétences</div>
-      <h2 class="section-title">Compétences techniques</h2>
-      <div class="skills-grid">
-
-        <div class="skill-card">
-          <div class="skill-card-icon">🌐</div>
-          <h3>Réseaux</h3>
-          <div class="skill-tags">
-            <span class="tag">TCP/IP</span>
-            <span class="tag">DNS</span>
-            <span class="tag">DHCP</span>
-            <span class="tag">VPN</span>
-            <span class="tag">VLAN</span>
-          </div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-card-icon">🖥️</div>
-          <h3>Systèmes</h3>
-          <div class="skill-tags">
-            <span class="tag">Windows Server 2016/19/22</span>
-            <span class="tag">Windows 10/11</span>
-            <span class="tag">Linux</span>
-          </div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-card-icon">🔐</div>
-          <h3>Sécurité & Active Directory</h3>
-          <div class="skill-tags">
-            <span class="tag">Active Directory</span>
-            <span class="tag">GPO</span>
-            <span class="tag">OU</span>
-            <span class="tag">WithSecure</span>
-            <span class="tag">Intune</span>
-          </div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-card-icon">☁️</div>
-          <h3>Virtualisation</h3>
-          <div class="skill-tags">
-            <span class="tag">VMware</span>
-            <span class="tag">Hyper-V</span>
-            <span class="tag">ESXi</span>
-            <span class="tag">VMs Linux/Windows</span>
-          </div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-card-icon">📊</div>
-          <h3>Supervision & ITSM</h3>
-          <div class="skill-tags">
-            <span class="tag">Zabbix</span>
-            <span class="tag">Centreon</span>
-            <span class="tag">GLPI</span>
-            <span class="tag">ServiceNow</span>
-          </div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-card-icon">💾</div>
-          <h3>Sauvegarde & M365</h3>
-          <div class="skill-tags">
-            <span class="tag">Veeam</span>
-            <span class="tag">NAS Synology</span>
-            <span class="tag">Exchange</span>
-            <span class="tag">OneDrive</span>
-            <span class="tag">Teams</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- EXPERIENCE -->
-  <section id="experience">
-    <div class="fade-in">
-      <div class="section-label">// 03 — Expérience</div>
-      <h2 class="section-title">Parcours professionnel</h2>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-date">Janvier 2026 — Aujourd'hui</div>
-          <div class="timeline-title">Stage — Technicien Informatique Systèmes & Réseaux</div>
-          <div class="timeline-org">Centre Hospitalier du Tonnerrois · Tonnerre 89700</div>
-          <ul class="timeline-list">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Janvier 2026<br>Aujourd'hui</div>
+        <div class="tl-content">
+          <h3>Stage — Technicien Informatique Systèmes & Réseaux</h3>
+          <div class="tl-org">Centre Hospitalier du Tonnerrois · Tonnerre (89700)</div>
+          <ul class="tl-list">
             <li>Préparation et masterisation des postes avec Ivanti</li>
             <li>Support technique N1/N2 et assistance aux utilisateurs via TeamViewer</li>
-            <li>Configuration de 257 postes clients et résolution d'incidents</li>
-            <li>Administration Active Directory, gestion utilisateurs, droits, GPO</li>
+            <li>Configuration de 257 postes clients et résolution des incidents</li>
+            <li>Administration Active Directory — utilisateurs, droits, GPO, OU</li>
             <li>Sécurisation des équipements et services informatiques</li>
             <li>Installation et configuration des équipements informatiques</li>
-            <li>Rédaction de comptes rendus et procédures techniques</li>
+            <li>Rédaction des comptes rendus et des procédures techniques</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
-
-  <!-- FORMATION -->
-  <section id="formation">
-    <div class="fade-in">
-      <div class="section-label">// 04 — Formation</div>
-      <h2 class="section-title">Éducation</h2>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-date">2024 — Aujourd'hui</div>
-          <div class="timeline-title">BUT — Réseaux et Télécommunications</div>
-          <div class="timeline-org">Parcours Cybersécurité · IUT de Dijon – Antenne d'Auxerre</div>
-          <ul class="timeline-list">
-            <li>Recherche d'alternance pour la 3ème année</li>
-            <li>Permis B</li>
+  <section id="formation" class="section reveal">
+    <div class="section-header">
+      <div class="section-num">04 — Formation</div>
+      <h2>Éducation</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">2024<br>Aujourd'hui</div>
+        <div class="tl-content">
+          <h3>BUT Réseaux & Télécommunications</h3>
+          <div class="tl-org">Parcours Cybersécurité · IUT de Dijon – Antenne d'Auxerre</div>
+          <ul class="tl-list">
+            <li>Recherche d'alternance pour la 3ème année BUT R&T</li>
           </ul>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2023 — 2024</div>
-          <div class="timeline-title">Baccalauréat Scientifique</div>
-          <div class="timeline-org">Spécialité NSI · Lycée Porte de Normandie · Verneuil-sur-Avre (27)</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2023<br>2024</div>
+        <div class="tl-content">
+          <h3>Baccalauréat Scientifique — NSI</h3>
+          <div class="tl-org">Lycée Porte de Normandie · Verneuil-sur-Avre (27)</div>
+          <ul class="tl-list">
+            <li>Spécialité Numérique et Sciences Informatiques</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <section id="certifications" class="section reveal">
+    <div class="section-header">
+      <div class="section-num">05 — Certifications</div>
+      <h2>Certifications & MOOC</h2>
+    </div>
+    <div class="certs-grid">
+      <div class="cert-item"><div class="cert-dot"></div><span>MOOC ANSSI</span></div>
+      <div class="cert-item"><div class="cert-dot"></div><span>MOOC RGPD — CNIL</span></div>
+      <div class="cert-item"><div class="cert-dot"></div><span>Certificat PIX</span></div>
+      <div class="cert-item"><div class="cert-dot"></div><span>Cisco CCNA 1 & 3</span></div>
+      <div class="cert-item"><div class="cert-dot"></div><span>3CX Basic</span></div>
+      <div class="cert-item"><div class="cert-dot"></div><span>Fortinet NSE1 & NSE2</span></div>
+    </div>
+  </section>
 
-  <!-- CERTIFICATIONS -->
-  <section id="certifications">
-    <div class="fade-in">
-      <div class="section-label">// 05 — Certifications</div>
-      <h2 class="section-title">Certifications & MOOC</h2>
-      <div class="certs-grid">
-        <div class="cert-badge"><div class="cert-dot"></div><span>MOOC ANSSI</span></div>
-        <div class="cert-badge"><div class="cert-dot"></div><span>MOOC RGPD — CNIL</span></div>
-        <div class="cert-badge"><div class="cert-dot"></div><span>Certificat PIX</span></div>
-        <div class="cert-badge"><div class="cert-dot"></div><span>Cisco CCNA 1 & 3</span></div>
-        <div class="cert-badge"><div class="cert-dot"></div><span>3CX Basic</span></div>
-        <div class="cert-badge"><div class="cert-dot"></div><span>Fortinet NSE1 & NSE2</span></div>
+  <section class="section reveal" style="padding-bottom:3rem;">
+    <div class="section-header">
+      <div class="section-num">06 — Langues</div>
+      <h2>Langues</h2>
+    </div>
+    <div class="langs-row">
+      <div class="lang-item">
+        <div class="lang-name">Français</div>
+        <div class="lang-lvl">C1</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">Anglais</div>
+        <div class="lang-lvl">B2</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">Espagnol</div>
+        <div class="lang-lvl">A1</div>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
-
-  <!-- LANGUAGES -->
-  <section id="langues" style="padding-top:4rem; padding-bottom:4rem;">
-    <div class="fade-in">
-      <div class="section-label">// 06 — Langues</div>
-      <h2 class="section-title" style="margin-bottom:2rem;">Langues</h2>
-      <div class="langs">
-        <div class="lang-card">
-          <div class="lang-name">🇫🇷 Français</div>
-          <div class="lang-level">Niveau C1</div>
-        </div>
-        <div class="lang-card">
-          <div class="lang-name">🇬🇧 Anglais</div>
-          <div class="lang-level">Niveau B2</div>
-        </div>
-        <div class="lang-card">
-          <div class="lang-name">🇪🇸 Espagnol</div>
-          <div class="lang-level">Niveau A1</div>
-        </div>
+  <section id="contact" class="section reveal">
+    <div class="section-header">
+      <div class="section-num">07 — Contact</div>
+      <h2>Me contacter</h2>
+    </div>
+    <div class="contact-grid">
+      <a class="contact-item" href="tel:0753903481">
+        <div class="contact-lbl">Téléphone</div>
+        <div class="contact-val">07 53 90 34 81</div>
+      </a>
+      <a class="contact-item" href="mailto:aliohisseinalio235@gmail.com">
+        <div class="contact-lbl">Email</div>
+        <div class="contact-val">aliohisseinalio235@gmail.com</div>
+      </a>
+      <a class="contact-item" href="https://github.com/IUTALIO" target="_blank" rel="noopener">
+        <div class="contact-lbl">GitHub</div>
+        <div class="contact-val">github.com/IUTALIO</div>
+      </a>
+      <div class="contact-item">
+        <div class="contact-lbl">Localisation</div>
+        <div class="contact-val">Auxerre, 89 — France</div>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"></div>
+</div>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="fade-in">
-      <div class="section-label">// 07 — Contact</div>
-      <h2 class="section-title">Me contacter</h2>
-      <div class="contact-grid">
-        <a class="contact-item" href="tel:0753903481">
-          <div class="contact-icon">📞</div>
-          <div>
-            <div class="contact-label">Téléphone</div>
-            <div class="contact-value">07 53 90 34 81</div>
-          </div>
-        </a>
-        <a class="contact-item" href="mailto:aliohisseinalio235@gmail.com">
-          <div class="contact-icon">✉️</div>
-          <div>
-            <div class="contact-label">Email</div>
-            <div class="contact-value">aliohisseinalio235@gmail.com</div>
-          </div>
-        </a>
-        <a class="contact-item" href="https://github.com/IUTALIO" target="_blank">
-          <div class="contact-icon">⌨️</div>
-          <div>
-            <div class="contact-label">GitHub</div>
-            <div class="contact-value">github.com/IUTALIO</div>
-          </div>
-        </a>
-        <div class="contact-item" style="cursor:default;">
-          <div class="contact-icon">📍</div>
-          <div>
-            <div class="contact-label">Localisation</div>
-            <div class="contact-value">Auxerre, 89 — France</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<footer>
+  <span>Hissein Alio — Cybersécurité & Réseaux</span>
+  <span>Disponible pour alternance · Septembre 2026</span>
+</footer>
 
-  <!-- FOOTER -->
-  <footer>
-    <span>© 2026 Hissein Alio — Cybersécurité & Réseaux</span>
-    <span style="margin: 0 1rem; color:var(--border)">|</span>
-    <span>Disponible pour alternance · Sept. 2026</span>
-  </footer>
-
-  <script>
-    // Scroll animation
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-  </script>
+<script>
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
