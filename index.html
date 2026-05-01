@@ -1,11 +1,412 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hissein Alio — Cybersécurité & Réseaux</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafaf8;
+      --bg2: #f4f3ef;
+      --text: #1a1a18;
+      --muted: #888880;
+      --border: #e5e4de;
+      --accent: #1a6b4a;
+      --accent-light: #e8f4ee;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 5vw;
+      background: rgba(250,250,248,0.93);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem; color: var(--text);
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+
+    .nav-links a {
+      font-size: 0.82rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 5vw 5rem; gap: 4rem;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent-light); color: var(--accent);
+      font-size: 0.75rem; font-weight: 500;
+      padding: 0.35rem 0.9rem; border-radius: 100px;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .hero-badge-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 400; line-height: 1.08;
+      letter-spacing: -0.02em;
+      animation: fadeUp 0.5s 0.08s ease both;
+    }
+
+    h1 em { font-style: italic; color: var(--accent); }
+
+    .hero-desc {
+      margin-top: 1.75rem; font-size: 0.95rem; font-weight: 300;
+      color: var(--muted); max-width: 440px; line-height: 1.8;
+      animation: fadeUp 0.5s 0.16s ease both;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem; display: flex; gap: 1rem;
+      animation: fadeUp 0.5s 0.24s ease both;
+    }
+
+    .btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.03em; padding: 0.75rem 1.75rem;
+      border: 1px solid var(--text);
+      text-decoration: none; display: inline-block;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .btn-dark { background: var(--text); color: var(--bg); }
+    .btn-dark:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
+    .btn-light { background: transparent; color: var(--text); }
+    .btn-light:hover { background: var(--bg2); transform: translateY(-1px); }
+
+    .hero-card {
+      background: white; border: 1px solid var(--border);
+      padding: 2.5rem;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.04);
+      animation: fadeUp 0.5s 0.3s ease both;
+    }
+
+    .hero-card-stats {
+      display: flex; gap: 2rem;
+      padding-bottom: 2rem; margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .stat-label {
+      font-size: 0.68rem; font-weight: 500; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem;
+    }
+
+    .stat-val { font-size: 0.9rem; font-weight: 600; }
+
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .hero-tag {
+      font-size: 0.72rem; font-weight: 500;
+      padding: 0.3rem 0.8rem;
+      background: var(--bg2); border: 1px solid var(--border);
+    }
+
+    /* WRAPPER */
+    .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 5vw; }
+
+    /* SECTION */
+    .section { padding: 6rem 0; border-top: 1px solid var(--border); }
+
+    .section-header {
+      display: grid; grid-template-columns: 200px 1fr;
+      gap: 4rem; align-items: start; margin-bottom: 3.5rem;
+    }
+
+    .section-num {
+      font-size: 0.7rem; font-weight: 500; color: var(--muted);
+      letter-spacing: 0.12em; text-transform: uppercase; padding-top: 0.5rem;
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 400; letter-spacing: -0.02em; line-height: 1.2;
+    }
+
+    /* SKILLS GRID */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+    }
+
+    .skill-card {
+      background: white; padding: 2rem;
+      transition: background 0.2s;
+    }
+
+    .skill-card:hover { background: var(--bg2); }
+
+    .skill-cat {
+      font-size: 0.68rem; font-weight: 500; color: var(--accent);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+
+    .skill-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem; font-weight: 400; margin-bottom: 1rem;
+    }
+
+    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+    .skill-list li {
+      font-size: 0.82rem; color: var(--muted);
+      padding-left: 0.9rem; position: relative;
+    }
+
+    .skill-list li::before { content: '–'; position: absolute; left: 0; color: var(--border); }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; }
+
+    .tl-item {
+      display: grid; grid-template-columns: 180px 1fr;
+      gap: 2rem; padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tl-item:last-child { border-bottom: none; }
+
+    .tl-date {
+      font-size: 0.75rem; font-weight: 500; color: var(--muted);
+      line-height: 1.6; padding-top: 0.15rem;
+    }
+
+    .tl-content h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem; font-weight: 400; margin-bottom: 0.2rem;
+    }
+
+    .tl-org { font-size: 0.8rem; color: var(--accent); font-weight: 500; margin-bottom: 1rem; }
+
+    .tl-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .tl-list li {
+      font-size: 0.83rem; color: var(--muted);
+      padding-left: 1rem; position: relative; line-height: 1.6;
+    }
+
+    .tl-list li::before { content: '→'; position: absolute; left: 0; color: var(--border); }
+
+    /* CERTS */
+    .certs-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+    }
+
+    .cert-item {
+      background: white; padding: 1.5rem 1.75rem;
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      transition: background 0.2s;
+    }
+
+    .cert-item:hover { background: var(--accent-light); }
+
+    .cert-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0; margin-top: 0.45rem;
+    }
+
+    .cert-item span { font-size: 0.85rem; font-weight: 500; line-height: 1.4; }
+
+    /* QUALITIES */
+    .q-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+    .q-pill {
+      font-size: 0.82rem; padding: 0.45rem 1.1rem;
+      border: 1px solid var(--border); background: white;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+
+    .q-pill:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+
+    /* LANGS */
+    .langs-row {
+      display: flex; gap: 1px; background: var(--border);
+      border: 1px solid var(--border); width: fit-content;
+    }
+
+    .lang-item { background: white; padding: 1.5rem 2.5rem; text-align: center; }
+
+    .lang-name { font-family: 'DM Serif Display', serif; font-size: 1rem; margin-bottom: 0.2rem; }
+    .lang-lvl { font-size: 0.7rem; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* PROJETS */
+    .project-card {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: 2rem;
+      margin-bottom: 1.25rem; flex-wrap: wrap;
+    }
+
+    .project-date {
+      font-size: 0.72rem; font-weight: 500;
+      color: var(--muted); letter-spacing: 0.04em; margin-bottom: 0.3rem;
+    }
+
+    .project-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem; font-weight: 400; margin-bottom: 0.2rem;
+    }
+
+    .project-org { font-size: 0.78rem; color: var(--accent); font-weight: 500; }
+
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      justify-content: flex-end;
+    }
+
+    .ptag {
+      font-size: 0.7rem; font-weight: 500;
+      padding: 0.25rem 0.7rem;
+      background: var(--bg2); border: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .project-desc {
+      font-size: 0.85rem; color: var(--muted);
+      line-height: 1.8; font-weight: 300;
+      max-width: 760px; margin-bottom: 1.5rem;
+    }
+
+    .project-files-label {
+      font-size: 0.68rem; font-weight: 500; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem;
+    }
+
+    .project-files-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+    .file-link {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font-size: 0.78rem; font-weight: 500;
+      padding: 0.45rem 1rem;
+      background: white; border: 1px solid var(--border);
+      text-decoration: none; color: var(--text);
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .file-link:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .file-link svg { flex-shrink: 0; }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+    }
+
+    .contact-item {
+      background: white; padding: 2rem;
+      text-decoration: none; color: var(--text);
+      transition: background 0.2s;
+    }
+
+    .contact-item:hover { background: var(--accent-light); }
+
+    .contact-lbl {
+      font-size: 0.68rem; font-weight: 500; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem;
+    }
+
+    .contact-val { font-size: 0.9rem; font-weight: 600; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 5vw;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.75rem; color: var(--muted);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.show { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      #hero { grid-template-columns: 1fr; padding: 7rem 5vw 3rem; gap: 2.5rem; }
+      .section-header { grid-template-columns: 1fr; gap: 0.5rem; }
+      .tl-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .nav-links { display: none; }
+      .project-header { flex-direction: column; }
+      .project-tags { justify-content: flex-start; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo">Hissein Alio</div>
   <ul class="nav-links">
     <li><a href="#about">Profil</a></li>
     <li><a href="#skills">Compétences</a></li>
+    <li><a href="#experience">Expérience</a></li>
     <li><a href="#projets">Projets</a></li>
+    <li><a href="#formation">Formation</a></li>
     <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
@@ -21,10 +422,10 @@
       Étudiant en BUT R&T parcours Cybersécurité à l'IUT d'Auxerre. Passionné par les infrastructures, la sécurité informatique et les systèmes complexes.
     </p>
     <div class="hero-cta">
+      <a href="#contact" class="btn btn-dark">Me contacter</a>
       <a href="#projets" class="btn btn-light">Voir les projets</a>
     </div>
   </div>
-
   <div>
     <div class="hero-card">
       <div class="hero-card-stats">
@@ -41,7 +442,6 @@
           <div class="stat-val">Alternance 3ème année</div>
         </div>
       </div>
-
       <div class="stat-label" style="margin-bottom:0.75rem;">Certifications clés</div>
       <div class="hero-tags">
         <span class="hero-tag">Cisco CCNA 1 & 3</span>
@@ -63,17 +463,10 @@
       <div class="section-num">01 — Profil</div>
       <h2>Qui suis-je ?</h2>
     </div>
-
     <p style="color:var(--muted); max-width:620px; font-size:0.95rem; line-height:1.85; font-weight:300; margin-bottom:2.5rem;">
-      Je vous adresse ma candidature pour une alternance d'un an en contrat d'apprentissage à la rentrée de septembre 2026.
-      Attiré par les technologies de l'information et le sens du service, j'aspire à contribuer à des projets innovants
-      tout en développant mes compétences dans un environnement professionnel exigeant.
+      Je vous adresse ma candidature pour une alternance d'un an en contrat d'apprentissage à la rentrée de septembre 2026. Attiré par les technologies de l'information et le sens du service, j'aspire à contribuer à des projets innovants tout en développant mes compétences dans un environnement professionnel exigeant.
     </p>
-
-    <div style="font-size:0.68rem;font-weight:500;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">
-      Qualités
-    </div>
-
+    <div style="font-size:0.68rem;font-weight:500;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Qualités</div>
     <div class="q-row">
       <span class="q-pill">Curieux</span>
       <span class="q-pill">Rigoureux</span>
@@ -93,7 +486,6 @@
       <div class="section-num">02 — Compétences</div>
       <h2>Compétences techniques</h2>
     </div>
-
     <div class="skills-grid">
       <div class="skill-card">
         <div class="skill-cat">Réseaux</div>
@@ -104,7 +496,6 @@
           <li>Dépannage réseau</li>
         </ul>
       </div>
-
       <div class="skill-card">
         <div class="skill-cat">Systèmes</div>
         <h3>OS & Environnements</h3>
@@ -114,7 +505,6 @@
           <li>Linux</li>
         </ul>
       </div>
-
       <div class="skill-card">
         <div class="skill-cat">Sécurité</div>
         <h3>Active Directory & Protection</h3>
@@ -124,7 +514,6 @@
           <li>Sécurisation équipements</li>
         </ul>
       </div>
-
       <div class="skill-card">
         <div class="skill-cat">Virtualisation</div>
         <h3>VMs & Hyperviseurs</h3>
@@ -133,7 +522,6 @@
           <li>VMs Linux / Windows</li>
         </ul>
       </div>
-
       <div class="skill-card">
         <div class="skill-cat">Supervision & ITSM</div>
         <h3>Monitoring & Ticketing</h3>
@@ -143,7 +531,6 @@
           <li>Ivanti (masterisation)</li>
         </ul>
       </div>
-
       <div class="skill-card">
         <div class="skill-cat">Microsoft 365 & Sauvegarde</div>
         <h3>Cloud & Backup</h3>
@@ -156,6 +543,32 @@
     </div>
   </section>
 
+  <!-- 03 EXPÉRIENCE -->
+  <section id="experience" class="section reveal">
+    <div class="section-header">
+      <div class="section-num">03 — Expérience</div>
+      <h2>Parcours professionnel</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Janvier 2026<br>Aujourd'hui</div>
+        <div class="tl-content">
+          <h3>Stage — Technicien Informatique Systèmes & Réseaux</h3>
+          <div class="tl-org">Centre Hospitalier du Tonnerrois · Tonnerre (89700)</div>
+          <ul class="tl-list">
+            <li>Préparation et masterisation des postes avec Ivanti</li>
+            <li>Support technique N1/N2 et assistance aux utilisateurs via TeamViewer</li>
+            <li>Configuration de 257 postes clients et résolution des incidents</li>
+            <li>Administration Active Directory — utilisateurs, droits, GPO, OU</li>
+            <li>Sécurisation des équipements et services informatiques</li>
+            <li>Installation et configuration des équipements informatiques</li>
+            <li>Rédaction des comptes rendus et des procédures techniques</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 04 PROJETS -->
   <section id="projets" class="section reveal">
     <div class="section-header">
@@ -163,7 +576,221 @@
       <h2>Projets académiques</h2>
     </div>
 
-    <!-- Garde ici tous tes projets inchangés -->
+    <!-- Escape Game -->
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <div class="project-date">Mai 2025 – Juil. 2025</div>
+          <div class="project-title">Escape Game — Mission Cybersécurité</div>
+          <div class="project-org">IUT Dijon-Auxerre-Nevers · Projet intégratif</div>
+        </div>
+        <div class="project-tags">
+          <span class="ptag">Cybersécurité</span>
+          <span class="ptag">Pédagogie</span>
+          <span class="ptag">Travail d'équipe</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Conception d'un atelier ludique de sensibilisation à la cybersécurité à destination du grand public. À travers une série d'énigmes, les visiteurs explorent les notions clés : gestion des mots de passe, cryptographie, phishing, réseaux sociaux, ingénierie sociale et Wi-Fi. Dispositif sous forme d'escape game thématique — instructif, amusant et accessible sans connaissances techniques préalables.
+      </p>
+      <div>
+        <div class="project-files-label">Documents</div>
+        <div class="project-files-row">
+          <a class="file-link" href="assets/pdfs/rapport-escape-game.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Rapport du projet
+          </a>
+          <a class="file-link" href="assets/pdfs/enigmes.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Les énigmes
+          </a>
+          <a class="file-link" href="assets/pdfs/certificat-achevement.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Certificat d'achèvement
+          </a>
+          <a class="file-link" href="assets/pdfs/presentation-escape-game.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Présentation
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAE 2.01 -->
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <div class="project-date">Mai 2025 – Juin 2025</div>
+          <div class="project-title">SAÉ 2.01 — Réseau d'Entreprise Multi-Sites</div>
+          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+        </div>
+        <div class="project-tags">
+          <span class="ptag">VLAN</span>
+          <span class="ptag">Active Directory</span>
+          <span class="ptag">IPv4 / IPv6</span>
+          <span class="ptag">GRE</span>
+          <span class="ptag">OSPF</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Conception et mise en place d'un réseau d'entreprise multi-sites pour une société de textile. Architecture avec site client (PC industriels) et site fournisseur (DMZ, pare-feu, WAN). Mise en œuvre : plan d'adressage IPv4/IPv6, segmentation VLAN, routage inter-VLAN, ACL, serveurs DHCP/DNS/AD, DMZ, NAT/PAT, tunnel GRE point-à-point et routage OSPF.
+      </p>
+      <div>
+        <div class="project-files-label">Documents & Médias</div>
+        <div class="project-files-row">
+          <a class="file-link" href="assets/pdfs/presentation-sae201.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Présentation SAE 201
+          </a>
+          <a class="file-link" href="assets/pdfs/dossier-technique-sae201.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Dossier Technique
+          </a>
+          <a class="file-link" href="assets/images/schema-logique-sae201.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Schéma logique
+          </a>
+          <a class="file-link" href="assets/images/schema-physique-sae201.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Schéma physique
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAE 2.03 -->
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <div class="project-date">Mai 2025 – Juin 2025</div>
+          <div class="project-title">SAÉ 2.03 — Gestion des Commandes Sport en Ligne</div>
+          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+        </div>
+        <div class="project-tags">
+          <span class="ptag">PHP</span>
+          <span class="ptag">MySQL</span>
+          <span class="ptag">HTML</span>
+          <span class="ptag">Bootstrap</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Développement d'un système de gestion des commandes pour un site e-commerce de sport. Base de données SQL (commandes, clients, produits, stocks, entrepôts, employés). Pages PHP pour affichage, ajout, suppression et recherche multi-critères avec résultats en tableaux HTML et graphiques.
+      </p>
+      <div>
+        <div class="project-files-label">Documents</div>
+        <div class="project-files-row">
+          <a class="file-link" href="assets/pdfs/presentation-sae203.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Présentation SAE 203
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visite Orange -->
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <div class="project-date">Avril 2025</div>
+          <div class="project-title">Visite des Locaux d'Orange — Auxerre</div>
+          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+        </div>
+        <div class="project-tags">
+          <span class="ptag">Fibre optique</span>
+          <span class="ptag">Câblage cuivre</span>
+          <span class="ptag">Télécom</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Visite des installations techniques d'Orange à Auxerre dans le cadre de la formation. Observation de la boucle locale fibre et cuivre, échanges avec des techniciens, découverte des étapes de traitement du signal depuis les clients jusqu'au cœur du réseau.
+      </p>
+      <div>
+        <div class="project-files-label">Documents</div>
+        <div class="project-files-row">
+          <a class="file-link" href="assets/pdfs/visite-orange.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Visite Locaux Orange
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAE 1.02 -->
+    <div class="project-card" style="border-bottom:none; padding-bottom:0;">
+      <div class="project-header">
+        <div>
+          <div class="project-date">Janv. 2025 – Févr. 2025</div>
+          <div class="project-title">SAÉ 1.02 — Conception Réseau Bâtiment IUT</div>
+          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+        </div>
+        <div class="project-tags">
+          <span class="ptag">VLAN</span>
+          <span class="ptag">DHCP</span>
+          <span class="ptag">Wi-Fi</span>
+          <span class="ptag">IPv4</span>
+          <span class="ptag">Windows Server</span>
+        </div>
+      </div>
+      <p class="project-desc">
+        Conception réseau d'un futur bâtiment R&T à l'IUT d'Auxerre pour l'Université de Bourgogne. Environnement multi-VLAN : DSI, salles TP/TD/CM, imprimante, Wi-Fi, serveurs. Mise en place d'un serveur DHCP, AD-DS Windows Server, politique de sécurité des équipements intermédiaires, points d'accès Wi-Fi avec chiffrement fort et plan d'adressage IPv4 complet.
+      </p>
+      <div>
+        <div class="project-files-label">Documents & Médias</div>
+        <div class="project-files-row">
+          <a class="file-link" href="assets/pdfs/document-sae102.pdf" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Document du projet
+          </a>
+          <a class="file-link" href="assets/images/schema-logique-sae102.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Schéma logique
+          </a>
+          <a class="file-link" href="assets/images/schema-physique-sae102.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Schéma physique
+          </a>
+          <a class="file-link" href="assets/images/plan-adressage-sae102.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Plan d'adressage IPv4
+          </a>
+          <a class="file-link" href="assets/images/creation-vlan-sae102.png" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Création des VLAN
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 05 FORMATION -->
+  <section id="formation" class="section reveal">
+    <div class="section-header">
+      <div class="section-num">05 — Formation</div>
+      <h2>Éducation</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">2024<br>Aujourd'hui</div>
+        <div class="tl-content">
+          <h3>BUT Réseaux & Télécommunications</h3>
+          <div class="tl-org">Parcours Cybersécurité · IUT de Dijon – Antenne d'Auxerre</div>
+          <ul class="tl-list">
+            <li>Recherche d'alternance pour la 3ème année BUT R&T</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2023<br>2024</div>
+        <div class="tl-content">
+          <h3>Baccalauréat Scientifique — NSI</h3>
+          <div class="tl-org">Lycée Porte de Normandie · Verneuil-sur-Avre (27)</div>
+          <ul class="tl-list">
+            <li>Spécialité Numérique et Sciences Informatiques</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- 06 CERTIFICATIONS -->
@@ -172,7 +799,6 @@
       <div class="section-num">06 — Certifications</div>
       <h2>Certifications & MOOC</h2>
     </div>
-
     <div class="certs-grid">
       <div class="cert-item"><div class="cert-dot"></div><span>MOOC ANSSI</span></div>
       <div class="cert-item"><div class="cert-dot"></div><span>MOOC RGPD — CNIL</span></div>
@@ -180,6 +806,54 @@
       <div class="cert-item"><div class="cert-dot"></div><span>Cisco CCNA 1 & 3</span></div>
       <div class="cert-item"><div class="cert-dot"></div><span>3CX Basic</span></div>
       <div class="cert-item"><div class="cert-dot"></div><span>Fortinet NSE1 & NSE2</span></div>
+    </div>
+  </section>
+
+  <!-- 07 LANGUES -->
+  <section class="section reveal" style="padding-bottom:3rem;">
+    <div class="section-header">
+      <div class="section-num">07 — Langues</div>
+      <h2>Langues</h2>
+    </div>
+    <div class="langs-row">
+      <div class="lang-item">
+        <div class="lang-name">Français</div>
+        <div class="lang-lvl">C1</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">Anglais</div>
+        <div class="lang-lvl">B2</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">Espagnol</div>
+        <div class="lang-lvl">A1</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 CONTACT -->
+  <section id="contact" class="section reveal">
+    <div class="section-header">
+      <div class="section-num">08 — Contact</div>
+      <h2>Me contacter</h2>
+    </div>
+    <div class="contact-grid">
+      <a class="contact-item" href="tel:0753903481">
+        <div class="contact-lbl">Téléphone</div>
+        <div class="contact-val">07 53 90 34 81</div>
+      </a>
+      <a class="contact-item" href="mailto:aliohisseinalio235@gmail.com">
+        <div class="contact-lbl">Email</div>
+        <div class="contact-val">aliohisseinalio235@gmail.com</div>
+      </a>
+      <a class="contact-item" href="https://github.com/IUTALIO" target="_blank" rel="noopener">
+        <div class="contact-lbl">GitHub</div>
+        <div class="contact-val">github.com/IUTALIO</div>
+      </a>
+      <div class="contact-item">
+        <div class="contact-lbl">Localisation</div>
+        <div class="contact-val">Auxerre, 89 — France</div>
+      </div>
     </div>
   </section>
 
@@ -192,12 +866,11 @@
 </footer>
 
 <script>
-const obs = new IntersectionObserver(
-  entries => entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('show');
-  }),
-  { threshold: 0.08 }
-);
-
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  const obs = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
+</body>
+</html>
