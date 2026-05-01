@@ -199,37 +199,16 @@
 
     .skill-list li::before { content: '–'; position: absolute; left: 0; color: var(--border); }
 
-    /* TIMELINE */
-    .timeline { display: flex; flex-direction: column; }
+    /* QUALITIES */
+    .q-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
-    .tl-item {
-      display: grid; grid-template-columns: 180px 1fr;
-      gap: 2rem; padding: 2.5rem 0;
-      border-bottom: 1px solid var(--border);
+    .q-pill {
+      font-size: 0.82rem; padding: 0.45rem 1.1rem;
+      border: 1px solid var(--border); background: white;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
     }
 
-    .tl-item:last-child { border-bottom: none; }
-
-    .tl-date {
-      font-size: 0.75rem; font-weight: 500; color: var(--muted);
-      line-height: 1.6; padding-top: 0.15rem;
-    }
-
-    .tl-content h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.1rem; font-weight: 400; margin-bottom: 0.2rem;
-    }
-
-    .tl-org { font-size: 0.8rem; color: var(--accent); font-weight: 500; margin-bottom: 1rem; }
-
-    .tl-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
-
-    .tl-list li {
-      font-size: 0.83rem; color: var(--muted);
-      padding-left: 1rem; position: relative; line-height: 1.6;
-    }
-
-    .tl-list li::before { content: '→'; position: absolute; left: 0; color: var(--border); }
+    .q-pill:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
 
     /* CERTS */
     .certs-grid {
@@ -251,28 +230,6 @@
     }
 
     .cert-item span { font-size: 0.85rem; font-weight: 500; line-height: 1.4; }
-
-    /* QUALITIES */
-    .q-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-
-    .q-pill {
-      font-size: 0.82rem; padding: 0.45rem 1.1rem;
-      border: 1px solid var(--border); background: white;
-      transition: border-color 0.2s, background 0.2s, color 0.2s;
-    }
-
-    .q-pill:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
-
-    /* LANGS */
-    .langs-row {
-      display: flex; gap: 1px; background: var(--border);
-      border: 1px solid var(--border); width: fit-content;
-    }
-
-    .lang-item { background: white; padding: 1.5rem 2.5rem; text-align: center; }
-
-    .lang-name { font-family: 'DM Serif Display', serif; font-size: 1rem; margin-bottom: 0.2rem; }
-    .lang-lvl { font-size: 0.7rem; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
 
     /* PROJETS */
     .project-card {
@@ -340,27 +297,6 @@
 
     .file-link svg { flex-shrink: 0; }
 
-    /* CONTACT */
-    .contact-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1px; background: var(--border); border: 1px solid var(--border);
-    }
-
-    .contact-item {
-      background: white; padding: 2rem;
-      text-decoration: none; color: var(--text);
-      transition: background 0.2s;
-    }
-
-    .contact-item:hover { background: var(--accent-light); }
-
-    .contact-lbl {
-      font-size: 0.68rem; font-weight: 500; color: var(--muted);
-      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem;
-    }
-
-    .contact-val { font-size: 0.9rem; font-weight: 600; }
-
     /* FOOTER */
     footer {
       border-top: 1px solid var(--border);
@@ -386,7 +322,6 @@
     @media (max-width: 768px) {
       #hero { grid-template-columns: 1fr; padding: 7rem 5vw 3rem; gap: 2.5rem; }
       .section-header { grid-template-columns: 1fr; gap: 0.5rem; }
-      .tl-item { grid-template-columns: 1fr; gap: 0.5rem; }
       .nav-links { display: none; }
       .project-header { flex-direction: column; }
       .project-tags { justify-content: flex-start; }
@@ -402,11 +337,8 @@
   <ul class="nav-links">
     <li><a href="#about">Profil</a></li>
     <li><a href="#skills">Compétences</a></li>
-    <li><a href="#experience">Expérience</a></li>
     <li><a href="#projets">Projets</a></li>
-    <li><a href="#formation">Formation</a></li>
     <li><a href="#certifications">Certifications</a></li>
-    <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
@@ -422,7 +354,7 @@
       Étudiant en BUT R&T parcours Cybersécurité à l'IUT d'Auxerre. Passionné par les infrastructures, la sécurité informatique et les systèmes complexes.
     </p>
     <div class="hero-cta">
-      <a href="#contact" class="btn btn-dark">Me contacter</a>
+      <a href="mailto:aliohisseinalio235@gmail.com" class="btn btn-dark">Me contacter</a>
       <a href="#projets" class="btn btn-light">Voir les projets</a>
     </div>
   </div>
@@ -543,36 +475,10 @@
     </div>
   </section>
 
-  <!-- 03 EXPÉRIENCE -->
-  <section id="experience" class="section reveal">
-    <div class="section-header">
-      <div class="section-num">03 — Expérience</div>
-      <h2>Parcours professionnel</h2>
-    </div>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-date">Janvier 2026<br>Aujourd'hui</div>
-        <div class="tl-content">
-          <h3>Stage — Technicien Informatique Systèmes & Réseaux</h3>
-          <div class="tl-org">Centre Hospitalier du Tonnerrois · Tonnerre (89700)</div>
-          <ul class="tl-list">
-            <li>Préparation et masterisation des postes avec Ivanti</li>
-            <li>Support technique N1/N2 et assistance aux utilisateurs via TeamViewer</li>
-            <li>Configuration de 257 postes clients et résolution des incidents</li>
-            <li>Administration Active Directory — utilisateurs, droits, GPO, OU</li>
-            <li>Sécurisation des équipements et services informatiques</li>
-            <li>Installation et configuration des équipements informatiques</li>
-            <li>Rédaction des comptes rendus et des procédures techniques</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 04 PROJETS -->
+  <!-- 03 PROJETS -->
   <section id="projets" class="section reveal">
     <div class="section-header">
-      <div class="section-num">04 — Projets</div>
+      <div class="section-num">03 — Projets</div>
       <h2>Projets académiques</h2>
     </div>
 
@@ -763,40 +669,10 @@
 
   </section>
 
-  <!-- 05 FORMATION -->
-  <section id="formation" class="section reveal">
-    <div class="section-header">
-      <div class="section-num">05 — Formation</div>
-      <h2>Éducation</h2>
-    </div>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-date">2024<br>Aujourd'hui</div>
-        <div class="tl-content">
-          <h3>BUT Réseaux & Télécommunications</h3>
-          <div class="tl-org">Parcours Cybersécurité · IUT de Dijon – Antenne d'Auxerre</div>
-          <ul class="tl-list">
-            <li>Recherche d'alternance pour la 3ème année BUT R&T</li>
-          </ul>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">2023<br>2024</div>
-        <div class="tl-content">
-          <h3>Baccalauréat Scientifique — NSI</h3>
-          <div class="tl-org">Lycée Porte de Normandie · Verneuil-sur-Avre (27)</div>
-          <ul class="tl-list">
-            <li>Spécialité Numérique et Sciences Informatiques</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 06 CERTIFICATIONS -->
+  <!-- 04 CERTIFICATIONS -->
   <section id="certifications" class="section reveal">
     <div class="section-header">
-      <div class="section-num">06 — Certifications</div>
+      <div class="section-num">04 — Certifications</div>
       <h2>Certifications & MOOC</h2>
     </div>
     <div class="certs-grid">
@@ -809,60 +685,12 @@
     </div>
   </section>
 
-  <!-- 07 LANGUES -->
-  <section class="section reveal" style="padding-bottom:3rem;">
-    <div class="section-header">
-      <div class="section-num">07 — Langues</div>
-      <h2>Langues</h2>
-    </div>
-    <div class="langs-row">
-      <div class="lang-item">
-        <div class="lang-name">Français</div>
-        <div class="lang-lvl">C1</div>
-      </div>
-      <div class="lang-item">
-        <div class="lang-name">Anglais</div>
-        <div class="lang-lvl">B2</div>
-      </div>
-      <div class="lang-item">
-        <div class="lang-name">Espagnol</div>
-        <div class="lang-lvl">A1</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 08 CONTACT -->
-  <section id="contact" class="section reveal">
-    <div class="section-header">
-      <div class="section-num">08 — Contact</div>
-      <h2>Me contacter</h2>
-    </div>
-    <div class="contact-grid">
-      <a class="contact-item" href="tel:0753903481">
-        <div class="contact-lbl">Téléphone</div>
-        <div class="contact-val">07 53 90 34 81</div>
-      </a>
-      <a class="contact-item" href="mailto:aliohisseinalio235@gmail.com">
-        <div class="contact-lbl">Email</div>
-        <div class="contact-val">aliohisseinalio235@gmail.com</div>
-      </a>
-      <a class="contact-item" href="https://github.com/IUTALIO" target="_blank" rel="noopener">
-        <div class="contact-lbl">GitHub</div>
-        <div class="contact-val">github.com/IUTALIO</div>
-      </a>
-      <div class="contact-item">
-        <div class="contact-lbl">Localisation</div>
-        <div class="contact-val">Auxerre, 89 — France</div>
-      </div>
-    </div>
-  </section>
-
 </div>
 
 <!-- FOOTER -->
 <footer>
   <span>Hissein Alio — Cybersécurité & Réseaux</span>
-  <span>Disponible pour alternance · Septembre 2026</span>
+  <span>aliohisseinalio235@gmail.com · 07 53 90 34 81</span>
 </footer>
 
 <script>
