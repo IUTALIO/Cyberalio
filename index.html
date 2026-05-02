@@ -5,16 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hissein Alio — Cybersécurité & Réseaux</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #fafaf8;
-      --bg2: #f4f3ef;
-      --text: #1a1a18;
-      --muted: #888880;
-      --border: #e5e4de;
-      --accent: #1a6b4a;
-      --accent-light: #e8f4ee;
+      --bg: #080b12;
+      --bg2: #0d1220;
+      --bg3: #111827;
+      --surface: #151d2e;
+      --surface2: #1a2438;
+      --border: #1f2d45;
+      --border2: #243350;
+      --text: #e8edf5;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --accent: #3b82f6;
+      --accent2: #06b6d4;
+      --accent3: #10b981;
+      --glow: rgba(59,130,246,0.15);
+      --glow2: rgba(6,182,212,0.1);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,403 +31,787 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 400;
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    /* NAV */
+    /* ── BACKGROUND EFFECTS ── */
+    .bg-mesh {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(59,130,246,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(6,182,212,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(16,185,129,0.03) 0%, transparent 70%);
+    }
+
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1.25rem 5vw;
-      background: rgba(250,250,248,0.93);
-      backdrop-filter: blur(10px);
+      padding: 1rem 5vw;
+      background: rgba(8,11,18,0.8);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+
+    nav.scrolled {
+      background: rgba(8,11,18,0.95);
+      border-bottom-color: var(--border2);
     }
 
     .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.1rem; color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      display: flex; align-items: center; gap: 0.5rem;
     }
 
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-logo-bracket { color: var(--text3); }
+
+    .nav-links { display: flex; gap: 0.25rem; list-style: none; }
 
     .nav-links a {
-      font-size: 0.82rem; font-weight: 500; color: var(--muted);
+      font-size: 0.8rem; font-weight: 500; color: var(--text3);
       text-decoration: none; letter-spacing: 0.04em;
-      transition: color 0.2s;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      transition: all 0.2s;
     }
 
-    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover {
+      color: var(--text);
+      background: var(--surface);
+    }
 
-    /* HERO */
+    .nav-links a.active {
+      color: var(--accent);
+      background: rgba(59,130,246,0.1);
+    }
+
+    .nav-cta {
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--bg) !important;
+      background: var(--accent) !important;
+      border-radius: 6px !important;
+    }
+
+    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px;
+      background: none; border: none;
+    }
+
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text2);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 61px; left: 0; right: 0; z-index: 99;
+      background: rgba(8,11,18,0.98);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 5vw 1.5rem;
+      flex-direction: column; gap: 0.25rem;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      font-size: 0.9rem; font-weight: 500; color: var(--text2);
+      text-decoration: none; padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--text); background: var(--surface); }
+
+    /* ── HERO ── */
     #hero {
+      position: relative; z-index: 1;
       min-height: 100vh;
-      display: grid; grid-template-columns: 1fr 1fr;
-      align-items: center;
-      padding: 8rem 5vw 5rem; gap: 4rem;
+      display: flex; align-items: center;
+      padding: 8rem 5vw 5rem;
     }
 
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--accent-light); color: var(--accent);
-      font-size: 0.75rem; font-weight: 500;
-      padding: 0.35rem 0.9rem; border-radius: 100px;
-      margin-bottom: 2rem;
-      animation: fadeUp 0.5s ease both;
+    .hero-inner {
+      width: 100%; max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 420px;
+      gap: 5rem; align-items: center;
     }
 
-    .hero-badge-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--accent);
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      margin-bottom: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; color: var(--accent2);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-eyebrow-line {
+      width: 32px; height: 1px; background: var(--accent2);
+    }
+
+    .hero-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent3);
+      box-shadow: 0 0 8px var(--accent3);
       animation: pulse 2s ease infinite;
     }
 
     @keyframes pulse {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
+      0%,100% { opacity: 1; transform: scale(1); box-shadow: 0 0 8px var(--accent3); }
+      50% { opacity: 0.6; transform: scale(0.85); box-shadow: 0 0 16px var(--accent3); }
     }
 
-    h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2.8rem, 5vw, 4.2rem);
-      font-weight: 400; line-height: 1.08;
-      letter-spacing: -0.02em;
-      animation: fadeUp 0.5s 0.08s ease both;
+    .hero-name {
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      animation: fadeUp 0.6s 0.1s ease both;
+      margin-bottom: 0.5rem;
     }
 
-    h1 em { font-style: italic; color: var(--accent); }
+    .hero-name .line2 {
+      display: block;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem; color: var(--text3);
+      margin-bottom: 1.75rem;
+      animation: fadeUp 0.6s 0.15s ease both;
+    }
+
+    .hero-role .typed-text { color: var(--accent2); }
 
     .hero-desc {
-      margin-top: 1.75rem; font-size: 0.95rem; font-weight: 300;
-      color: var(--muted); max-width: 440px; line-height: 1.8;
-      animation: fadeUp 0.5s 0.16s ease both;
+      font-size: 1rem; font-weight: 300;
+      color: var(--text2); max-width: 480px; line-height: 1.8;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.6s 0.2s ease both;
     }
 
-    .hero-cta {
-      margin-top: 2.5rem; display: flex; gap: 1rem;
-      animation: fadeUp 0.5s 0.24s ease both;
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.25s ease both;
     }
 
-    .btn {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem; font-weight: 500;
-      letter-spacing: 0.03em; padding: 0.75rem 1.75rem;
-      border: 1px solid var(--text);
-      text-decoration: none; display: inline-block;
-      transition: background 0.2s, color 0.2s, transform 0.2s;
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent);
+      color: white; font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px; text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 0 20px rgba(59,130,246,0.3);
     }
 
-    .btn-dark { background: var(--text); color: var(--bg); }
-    .btn-dark:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
-    .btn-light { background: transparent; color: var(--text); }
-    .btn-light:hover { background: var(--bg2); transform: translateY(-1px); }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 32px rgba(59,130,246,0.5);
+    }
 
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--surface);
+      color: var(--text); font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px; text-decoration: none;
+      border: 1px solid var(--border2);
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface2);
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* ── HERO CARD ── */
     .hero-card {
-      background: white; border: 1px solid var(--border);
-      padding: 2.5rem;
-      box-shadow: 0 2px 24px rgba(0,0,0,0.04);
-      animation: fadeUp 0.5s 0.3s ease both;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      padding: 2rem;
+      animation: fadeUp 0.6s 0.3s ease both;
+      position: relative; overflow: hidden;
     }
 
-    .hero-card-stats {
-      display: flex; gap: 2rem;
-      padding-bottom: 2rem; margin-bottom: 2rem;
+    .hero-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .hero-card-header {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.5rem; padding-bottom: 1.25rem;
       border-bottom: 1px solid var(--border);
-      flex-wrap: wrap;
     }
 
-    .stat-label {
-      font-size: 0.68rem; font-weight: 500; color: var(--muted);
-      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem;
+    .hero-avatar {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; font-weight: 800; color: white;
+      flex-shrink: 0;
     }
 
-    .stat-val { font-size: 0.9rem; font-weight: 600; }
+    .hero-card-name { font-size: 0.95rem; font-weight: 700; }
+    .hero-card-role { font-size: 0.75rem; color: var(--text3); margin-top: 0.1rem; }
 
-    .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-
-    .hero-tag {
-      font-size: 0.72rem; font-weight: 500;
-      padding: 0.3rem 0.8rem;
-      background: var(--bg2); border: 1px solid var(--border);
+    .hero-status {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.7rem; font-weight: 500;
+      color: var(--accent3);
+      background: rgba(16,185,129,0.1);
+      border: 1px solid rgba(16,185,129,0.2);
+      padding: 0.3rem 0.7rem; border-radius: 100px;
     }
 
-    /* WRAPPER */
-    .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 5vw; }
-
-    /* SECTION */
-    .section { padding: 6rem 0; border-top: 1px solid var(--border); }
-
-    .section-header {
-      display: grid; grid-template-columns: 200px 1fr;
-      gap: 4rem; align-items: start; margin-bottom: 3.5rem;
+    .hero-status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent3);
+      animation: pulse 2s ease infinite;
     }
 
-    .section-num {
-      font-size: 0.7rem; font-weight: 500; color: var(--muted);
-      letter-spacing: 0.12em; text-transform: uppercase; padding-top: 0.5rem;
+    .hero-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.75rem; margin-bottom: 1.25rem;
+    }
+
+    .hero-stat {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+
+    .hero-stat-label {
+      font-size: 0.65rem; font-weight: 500; color: var(--text3);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem;
+    }
+
+    .hero-stat-val { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+
+    .hero-tags-label {
+      font-size: 0.65rem; font-weight: 500; color: var(--text3);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem;
+    }
+
+    .hero-chip-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; font-weight: 500;
+      padding: 0.25rem 0.65rem; border-radius: 5px;
+      background: rgba(59,130,246,0.08);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: var(--accent);
+    }
+
+    /* ── WRAPPER ── */
+    .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 5vw; position: relative; z-index: 1; }
+
+    /* ── SECTION ── */
+    .section { padding: 6rem 0; }
+
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--accent);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-tag::before {
+      content: '';
+      width: 20px; height: 1px; background: var(--accent);
     }
 
     h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
-      font-weight: 400; letter-spacing: -0.02em; line-height: 1.2;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.15; margin-bottom: 0.75rem;
     }
 
-    /* SKILLS GRID */
+    .section-sub {
+      font-size: 0.9rem; color: var(--text2); font-weight: 300;
+      max-width: 500px; line-height: 1.7; margin-bottom: 3rem;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border2), transparent);
+    }
+
+    /* ── SKILLS ── */
     .skills-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1px; background: var(--border); border: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
     }
 
     .skill-card {
-      background: white; padding: 2rem;
-      transition: background 0.2s;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      position: relative; overflow: hidden;
     }
 
-    .skill-card:hover { background: var(--bg2); }
+    .skill-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--glow), transparent);
+      opacity: 0; transition: opacity 0.3s;
+      border-radius: 14px;
+    }
+
+    .skill-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+
+    .skill-card:hover::after { opacity: 1; }
+
+    .skill-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; margin-bottom: 1rem;
+      position: relative; z-index: 1;
+    }
+
+    .skill-icon.blue { background: rgba(59,130,246,0.15); }
+    .skill-icon.cyan { background: rgba(6,182,212,0.15); }
+    .skill-icon.green { background: rgba(16,185,129,0.15); }
+    .skill-icon.purple { background: rgba(139,92,246,0.15); }
+    .skill-icon.orange { background: rgba(249,115,22,0.15); }
+    .skill-icon.pink { background: rgba(236,72,153,0.15); }
 
     .skill-cat {
-      font-size: 0.68rem; font-weight: 500; color: var(--accent);
-      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; color: var(--accent);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 0.4rem; position: relative; z-index: 1;
     }
 
     .skill-card h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.05rem; font-weight: 400; margin-bottom: 1rem;
+      font-size: 0.95rem; font-weight: 700;
+      margin-bottom: 0.9rem; position: relative; z-index: 1;
     }
 
-    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+    .skill-list {
+      list-style: none; display: flex; flex-direction: column; gap: 0.3rem;
+      position: relative; z-index: 1;
+    }
 
     .skill-list li {
-      font-size: 0.82rem; color: var(--muted);
-      padding-left: 0.9rem; position: relative;
+      font-size: 0.78rem; color: var(--text2);
+      padding-left: 1rem; position: relative; line-height: 1.5;
     }
 
-    .skill-list li::before { content: '–'; position: absolute; left: 0; color: var(--border); }
+    .skill-list li::before {
+      content: '▸'; position: absolute; left: 0;
+      color: var(--accent); font-size: 0.6rem; top: 0.2rem;
+    }
 
-    /* QUALITIES */
-    .q-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    /* ── QUALITIES ── */
+    .q-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
     .q-pill {
-      font-size: 0.82rem; padding: 0.45rem 1.1rem;
-      border: 1px solid var(--border); background: white;
-      transition: border-color 0.2s, background 0.2s, color 0.2s;
+      font-size: 0.8rem; font-weight: 500;
+      padding: 0.45rem 1.1rem;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      border-radius: 100px;
+      color: var(--text2);
+      transition: all 0.2s; cursor: default;
     }
 
-    .q-pill:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
-
-    /* CERTS */
-    .certs-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1px; background: var(--border); border: 1px solid var(--border);
+    .q-pill:hover {
+      border-color: var(--accent);
+      background: rgba(59,130,246,0.1);
+      color: var(--accent);
+      transform: translateY(-2px);
     }
 
-    .cert-item {
-      background: white; padding: 1.5rem 1.75rem;
-      display: flex; align-items: flex-start; gap: 0.75rem;
-      transition: background 0.2s;
-    }
+    /* ── PROJECTS ── */
+    .projects-list { display: flex; flex-direction: column; gap: 1rem; }
 
-    .cert-item:hover { background: var(--accent-light); }
-
-    .cert-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent); flex-shrink: 0; margin-top: 0.45rem;
-    }
-
-    .cert-item span { font-size: 0.85rem; font-weight: 500; line-height: 1.4; }
-
-    /* PROJETS */
     .project-card {
-      padding: 2.5rem 0;
-      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s;
     }
 
-    .project-header {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; gap: 2rem;
-      margin-bottom: 1.25rem; flex-wrap: wrap;
+    .project-card:hover {
+      border-color: var(--border2);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
     }
 
-    .project-date {
-      font-size: 0.72rem; font-weight: 500;
-      color: var(--muted); letter-spacing: 0.04em; margin-bottom: 0.3rem;
+    .project-card-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 1.75rem 1.75rem 0; gap: 1.5rem; flex-wrap: wrap;
+    }
+
+    .project-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; color: var(--text3);
+      letter-spacing: 0.1em; margin-bottom: 0.4rem;
     }
 
     .project-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.15rem; font-weight: 400; margin-bottom: 0.2rem;
+      font-size: 1.05rem; font-weight: 700; margin-bottom: 0.25rem;
+      line-height: 1.3;
     }
 
-    .project-org { font-size: 0.78rem; color: var(--accent); font-weight: 500; }
+    .project-org {
+      font-size: 0.75rem; color: var(--accent2); font-weight: 500;
+    }
 
-    .project-tags {
+    .project-date-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; font-weight: 500;
+      padding: 0.3rem 0.75rem; border-radius: 6px;
+      background: var(--bg2); border: 1px solid var(--border);
+      color: var(--text3); white-space: nowrap; flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    .project-tags-row {
       display: flex; flex-wrap: wrap; gap: 0.4rem;
-      justify-content: flex-end;
+      padding: 1rem 1.75rem 0;
     }
 
     .ptag {
-      font-size: 0.7rem; font-weight: 500;
-      padding: 0.25rem 0.7rem;
-      background: var(--bg2); border: 1px solid var(--border);
-      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; font-weight: 500;
+      padding: 0.2rem 0.65rem; border-radius: 4px;
+      background: rgba(6,182,212,0.08);
+      border: 1px solid rgba(6,182,212,0.2);
+      color: var(--accent2);
     }
 
     .project-desc {
-      font-size: 0.85rem; color: var(--muted);
-      line-height: 1.8; font-weight: 300;
-      max-width: 760px; margin-bottom: 1.5rem;
+      font-size: 0.83rem; color: var(--text2);
+      line-height: 1.75; font-weight: 300;
+      padding: 1rem 1.75rem;
+    }
+
+    .project-files {
+      padding: 0 1.75rem 1.75rem;
+      border-top: 1px solid var(--border);
+      margin-top: 0.25rem; padding-top: 1.25rem;
     }
 
     .project-files-label {
-      font-size: 0.68rem; font-weight: 500; color: var(--muted);
-      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; font-weight: 500; color: var(--text3);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;
     }
 
-    .project-files-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .project-files-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
     .file-link {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      font-size: 0.78rem; font-weight: 500;
-      padding: 0.45rem 1rem;
-      background: white; border: 1px solid var(--border);
-      text-decoration: none; color: var(--text);
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.75rem; font-weight: 500;
+      padding: 0.4rem 0.9rem;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none; color: var(--text2);
+      transition: all 0.2s;
     }
 
     .file-link:hover {
-      background: var(--accent-light);
+      background: rgba(59,130,246,0.1);
       border-color: var(--accent);
       color: var(--accent);
+      transform: translateY(-1px);
     }
 
     .file-link svg { flex-shrink: 0; }
 
-    /* FOOTER */
+    /* ── CERTS ── */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .cert-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex; align-items: center; gap: 0.85rem;
+      transition: all 0.25s;
+      cursor: default;
+    }
+
+    .cert-item:hover {
+      border-color: var(--border2);
+      background: var(--surface2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+
+    .cert-icon {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(6,182,212,0.2));
+      border: 1px solid rgba(59,130,246,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+    }
+
+    .cert-item span { font-size: 0.8rem; font-weight: 600; line-height: 1.3; }
+
+    /* ── FOOTER ── */
     footer {
+      position: relative; z-index: 1;
       border-top: 1px solid var(--border);
       padding: 2rem 5vw;
       display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.75rem; color: var(--muted);
+      flex-wrap: wrap; gap: 1rem;
     }
 
-    /* ANIMATIONS */
+    .footer-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; color: var(--text3);
+    }
+
+    .footer-links {
+      display: flex; gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-size: 0.78rem; color: var(--text3);
+      text-decoration: none; transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
+      from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     .reveal {
-      opacity: 0; transform: translateY(18px);
-      transition: opacity 0.55s ease, transform 0.55s ease;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
     .reveal.show { opacity: 1; transform: none; }
 
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      #hero { grid-template-columns: 1fr; padding: 7rem 5vw 3rem; gap: 2.5rem; }
-      .section-header { grid-template-columns: 1fr; gap: 0.5rem; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-card { max-width: 480px; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
       .nav-links { display: none; }
-      .project-header { flex-direction: column; }
-      .project-tags { justify-content: flex-start; }
-      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .hamburger { display: flex; }
+      #hero { padding: 7rem 5vw 3rem; }
+      .hero-name { font-size: 2.6rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .project-card-header { flex-direction: column; gap: 0.75rem; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
     }
   </style>
 </head>
 <body>
 
+<div class="bg-mesh"></div>
+<div class="bg-grid"></div>
+
 <!-- NAV -->
-<nav>
-  <div class="nav-logo">Hissein Alio</div>
+<nav id="navbar">
+  <div class="nav-logo">
+    <span class="nav-logo-bracket">[</span>HA<span class="nav-logo-bracket">]</span>
+  </div>
   <ul class="nav-links">
     <li><a href="#about">Profil</a></li>
     <li><a href="#skills">Compétences</a></li>
     <li><a href="#projets">Projets</a></li>
     <li><a href="#certifications">Certifications</a></li>
+    <li><a href="mailto:aliohisseinalio235@gmail.com" class="nav-cta">Contact</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- HERO -->
-<div id="hero">
-  <div>
-    <div class="hero-badge">
-      <div class="hero-badge-dot"></div>
-      Disponible · Alternance Sept. 2026
-    </div>
-    <h1>Réseaux &<br><em>Cybersécurité</em></h1>
-    <p class="hero-desc">
-      Étudiant en deuxième année de BUT R&T parcours Cybersécurité à l'IUT d'Auxerre. Passionné par les infrastructures, la sécurité informatique et les systèmes complexes.
-    </p>
-    <div class="hero-cta">
-      <a href="https://www.linkedin.com/in/hissein-alio-37796a349/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BB0Id5bi1R%2B%2B73IcgTViCZA%3D%3D" class="btn btn-dark">Me contacter</a>
-      <a href="#projets" class="btn btn-light">Voir les projets</a>
-    </div>
-  </div>
-  <div>
-    <div class="hero-card">
-      <div class="hero-card-stats">
-        <div>
-          <div class="stat-label">Localisation</div>
-          <div class="stat-val">France</div>
-        </div>
-        <div>
-          <div class="stat-label">Permis</div>
-          <div class="stat-val">Permis B</div>
-        </div>
-        <div>
-          <div class="stat-label">Recherche</div>
-          <div class="stat-val">Alternance 3ème année</div>
-        </div>
-      </div>
-      <div class="stat-label" style="margin-bottom:0.75rem;">Certifications clés</div>
-      <div class="hero-tags">
-        <span class="hero-tag">Cisco CCNA 1 & 3</span>
-        <span class="hero-tag">Fortinet NSE1 & 2</span>
-        <span class="hero-tag">ANSSI MOOC</span>
-        <span class="hero-tag">3CX Basic</span>
-        <span class="hero-tag">PIX</span>
-        <span class="hero-tag">RGPD CNIL</span>
-      </div>
-    </div>
-  </div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">Profil</a>
+  <a href="#skills" onclick="closeMobile()">Compétences</a>
+  <a href="#projets" onclick="closeMobile()">Projets</a>
+  <a href="#certifications" onclick="closeMobile()">Certifications</a>
+  <a href="mailto:aliohisseinalio235@gmail.com" onclick="closeMobile()">Contact</a>
 </div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <div class="hero-dot"></div>
+        Disponible · Alternance Sept. 2026
+      </div>
+      <h1 class="hero-name">
+        Hissein Alio
+        <span class="line2">Cybersécurité.</span>
+      </h1>
+      <div class="hero-role">
+        <span style="color:var(--text3)">$ </span><span class="typed-text" id="typed"></span><span style="color:var(--accent2); animation: blink 1s step-end infinite;">█</span>
+      </div>
+      <p class="hero-desc">
+        Étudiant en BUT Réseaux & Télécommunications parcours Cybersécurité à l'IUT d'Auxerre. Passionné par les infrastructures, la sécurité informatique et les systèmes complexes.
+      </p>
+      <div class="hero-actions">
+        <a href="#projets" class="btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="13 2 13 9 20 9"/><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg>
+          Voir les projets
+        </a>
+        <a href="mailto:aliohisseinalio235@gmail.com" class="btn-secondary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Me contacter
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-card-header">
+        <div class="hero-avatar">HA</div>
+        <div>
+          <div class="hero-card-name">Hissein Alio</div>
+          <div class="hero-card-role">Étudiant BUT R&T · Cybersécurité</div>
+        </div>
+        <div class="hero-status">
+          <div class="hero-status-dot"></div>
+          Open to work
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label">Localisation</div>
+          <div class="hero-stat-val">Auxerre, 89</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Permis</div>
+          <div class="hero-stat-val">Permis B</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Recherche</div>
+          <div class="hero-stat-val">Alternance 3A</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label">Début</div>
+          <div class="hero-stat-val">Sept. 2026</div>
+        </div>
+      </div>
+      <div class="hero-tags-label">Stack & Certifications</div>
+      <div class="hero-chip-row">
+        <span class="chip">CCNA 1&3</span>
+        <span class="chip">NSE1&2</span>
+        <span class="chip">ANSSI</span>
+        <span class="chip">3CX</span>
+        <span class="chip">PIX</span>
+        <span class="chip">RGPD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
 
 <div class="wrapper">
 
-  <!-- 01 PROFIL -->
+  <!-- PROFIL -->
   <section id="about" class="section reveal">
-    <div class="section-header">
-      <div class="section-num">01 — Profil</div>
-      <h2>Qui suis-je ?</h2>
-    </div>
-    <p style="color:var(--muted); max-width:620px; font-size:0.95rem; line-height:1.85; font-weight:300; margin-bottom:2.5rem;">
-      Attiré par les technologies de l'information et le sens du service, j'aspire à contribuer à des projets innovants tout en développant mes compétences dans un environnement professionnel exigeant.
+    <div class="section-tag">01 — Profil</div>
+    <h2>Qui suis-je ?</h2>
+    <p class="section-sub">
+      Candidat pour une alternance d'un an à la rentrée de septembre 2026. Attiré par les technologies de l'information, j'aspire à contribuer à des projets innovants dans un environnement professionnel exigeant.
     </p>
-    <div style="font-size:0.68rem;font-weight:500;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Qualités</div>
-    <div class="q-row">
-      <span class="q-pill">Curieux</span>
-      <span class="q-pill">Rigoureux</span>
-      <span class="q-pill">Autonome</span>
-      <span class="q-pill">Esprit d'équipe</span>
-      <span class="q-pill">Esprit d'analyse</span>
-      <span class="q-pill">Sens du contact</span>
-      <span class="q-pill">Sens de l'organisation</span>
-      <span class="q-pill">Capacité d'adaptation</span>
-      <span class="q-pill">Communication claire</span>
+    <div class="q-grid">
+      <span class="q-pill">🔍 Curieux</span>
+      <span class="q-pill">✅ Rigoureux</span>
+      <span class="q-pill">🚀 Autonome</span>
+      <span class="q-pill">🤝 Esprit d'équipe</span>
+      <span class="q-pill">🧠 Esprit d'analyse</span>
+      <span class="q-pill">💬 Sens du contact</span>
+      <span class="q-pill">📋 Sens de l'organisation</span>
+      <span class="q-pill">⚡ Capacité d'adaptation</span>
+      <span class="q-pill">🗣️ Communication claire</span>
     </div>
   </section>
 
-  <!-- 02 COMPÉTENCES -->
-  <section id="skills" class="section reveal">
-    <div class="section-header">
-      <div class="section-num">02 — Compétences</div>
+  <div class="divider"></div>
+
+  <!-- COMPÉTENCES -->
+  <section id="skills" class="section">
+    <div class="reveal">
+      <div class="section-tag">02 — Compétences</div>
       <h2>Compétences techniques</h2>
+      <p class="section-sub">Stack technique acquis en formation et en stage au Centre Hospitalier du Tonnerrois.</p>
     </div>
     <div class="skills-grid">
-      <div class="skill-card">
+      <div class="skill-card reveal reveal-delay-1">
+        <div class="skill-icon blue">🌐</div>
         <div class="skill-cat">Réseaux</div>
         <h3>Protocoles & Infrastructure</h3>
         <ul class="skill-list">
@@ -428,7 +820,8 @@
           <li>Dépannage réseau</li>
         </ul>
       </div>
-      <div class="skill-card">
+      <div class="skill-card reveal reveal-delay-2">
+        <div class="skill-icon cyan">🖥️</div>
         <div class="skill-cat">Systèmes</div>
         <h3>OS & Environnements</h3>
         <ul class="skill-list">
@@ -437,7 +830,8 @@
           <li>Linux</li>
         </ul>
       </div>
-      <div class="skill-card">
+      <div class="skill-card reveal reveal-delay-3">
+        <div class="skill-icon green">🔐</div>
         <div class="skill-cat">Sécurité</div>
         <h3>Active Directory & Protection</h3>
         <ul class="skill-list">
@@ -446,7 +840,8 @@
           <li>Sécurisation équipements</li>
         </ul>
       </div>
-      <div class="skill-card">
+      <div class="skill-card reveal reveal-delay-1">
+        <div class="skill-icon purple">☁️</div>
         <div class="skill-cat">Virtualisation</div>
         <h3>VMs & Hyperviseurs</h3>
         <ul class="skill-list">
@@ -454,7 +849,8 @@
           <li>VMs Linux / Windows</li>
         </ul>
       </div>
-      <div class="skill-card">
+      <div class="skill-card reveal reveal-delay-2">
+        <div class="skill-icon orange">📊</div>
         <div class="skill-cat">Supervision & ITSM</div>
         <h3>Monitoring & Ticketing</h3>
         <ul class="skill-list">
@@ -463,7 +859,8 @@
           <li>Ivanti (masterisation)</li>
         </ul>
       </div>
-      <div class="skill-card">
+      <div class="skill-card reveal reveal-delay-3">
+        <div class="skill-icon pink">💾</div>
         <div class="skill-cat">Microsoft 365 & Sauvegarde</div>
         <h3>Cloud & Backup</h3>
         <ul class="skill-list">
@@ -475,213 +872,225 @@
     </div>
   </section>
 
-  <!-- 03 PROJETS -->
-  <section id="projets" class="section reveal">
-    <div class="section-header">
-      <div class="section-num">03 — Projets</div>
+  <div class="divider"></div>
+
+  <!-- PROJETS -->
+  <section id="projets" class="section">
+    <div class="reveal">
+      <div class="section-tag">03 — Projets</div>
       <h2>Projets académiques</h2>
+      <p class="section-sub">Projets réalisés dans le cadre du BUT Réseaux & Télécommunications à l'IUT Dijon-Auxerre-Nevers.</p>
     </div>
 
-    <!-- Escape Game -->
-    <div class="project-card">
-      <div class="project-header">
-        <div>
-          <div class="project-date">Mai 2025 – Juil. 2025</div>
-          <div class="project-title">Escape Game — Mission Cybersécurité</div>
-          <div class="project-org">IUT Dijon-Auxerre-Nevers · Projet intégratif</div>
+    <div class="projects-list">
+
+      <div class="project-card reveal">
+        <div class="project-card-header">
+          <div>
+            <div class="project-number">PROJET // 001</div>
+            <div class="project-title">Escape Game — Mission Cybersécurité</div>
+            <div class="project-org">IUT Dijon-Auxerre-Nevers · Projet intégratif</div>
+          </div>
+          <div class="project-date-badge">Mai – Juil. 2025</div>
         </div>
-        <div class="project-tags">
+        <div class="project-tags-row">
           <span class="ptag">Cybersécurité</span>
           <span class="ptag">Pédagogie</span>
           <span class="ptag">Travail d'équipe</span>
+          <span class="ptag">Sensibilisation</span>
+        </div>
+        <p class="project-desc">
+          Conception d'un atelier ludique de sensibilisation à la cybersécurité à destination du grand public. À travers une série d'énigmes, les visiteurs explorent les notions clés : gestion des mots de passe, cryptographie, phishing, réseaux sociaux, ingénierie sociale et Wi-Fi. Dispositif sous forme d'escape game thématique — instructif, amusant et accessible sans connaissances techniques préalables.
+        </p>
+        <div class="project-files">
+          <div class="project-files-label">Documents attachés</div>
+          <div class="project-files-row">
+            <a class="file-link" href="assets/pdfs/rapport-escape-game.pdf" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Rapport
+            </a>
+            <a class="file-link" href="assets/pdfs/enigmes.pdf" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Les énigmes
+            </a>
+            <a class="file-link" href="assets/pdfs/certificat-achevement.pdf" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Certificat
+            </a>
+            <a class="file-link" href="assets/pdfs/presentation-escape-game.pdf" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Présentation
+            </a>
+          </div>
         </div>
       </div>
-      <p class="project-desc">
-        Conception d'un atelier ludique de sensibilisation à la cybersécurité à destination du grand public. À travers une série d'énigmes, les visiteurs explorent les notions clés : gestion des mots de passe, cryptographie, phishing, réseaux sociaux, ingénierie sociale et Wi-Fi. Dispositif sous forme d'escape game thématique — instructif, amusant et accessible sans connaissances techniques préalables.
-      </p>
-      <div>
-        <div class="project-files-label">Documents</div>
-        <div class="project-files-row">
-          <a class="file-link" href="assets/pdfs/rapport-escape-game.pdf" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Rapport du projet
-          </a>
-          <a class="file-link" href="assets/pdfs/enigmes.pdf" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Les énigmes
-          </a>
-          <a class="file-link" href="assets/pdfs/certificat-achevement.pdf" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Certificat d'achèvement
-          </a>
-          <a class="file-link" href="assets/pdfs/presentation-escape-game.pdf" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Présentation
-          </a>
-        </div>
-      </div>
-    </div>
 
-    <!-- SAE 2.01 -->
-    <div class="project-card">
-      <div class="project-header">
-        <div>
-          <div class="project-date">Mai 2025 – Juin 2025</div>
-          <div class="project-title">SAÉ 2.01 — Réseau d'Entreprise Multi-Sites</div>
-          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+      <div class="project-card reveal">
+        <div class="project-card-header">
+          <div>
+            <div class="project-number">PROJET // 002</div>
+            <div class="project-title">SAÉ 2.01 — Réseau d'Entreprise Multi-Sites</div>
+            <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+          </div>
+          <div class="project-date-badge">Mai – Juin 2025</div>
         </div>
-        <div class="project-tags">
+        <div class="project-tags-row">
           <span class="ptag">VLAN</span>
           <span class="ptag">Active Directory</span>
           <span class="ptag">IPv4 / IPv6</span>
           <span class="ptag">GRE</span>
           <span class="ptag">OSPF</span>
+          <span class="ptag">NAT/PAT</span>
+        </div>
+        <p class="project-desc">
+          Conception et mise en place d'un réseau d'entreprise multi-sites pour une société de textile. Architecture avec site client (PC industriels) et site fournisseur (DMZ, pare-feu, WAN). Mise en œuvre : plan d'adressage IPv4/IPv6, segmentation VLAN, routage inter-VLAN, ACL, serveurs DHCP/DNS/AD, DMZ, NAT/PAT, tunnel GRE point-à-point et routage OSPF.
+        </p>
+        <div class="project-files">
+          <div class="project-files-label">Documents & Médias</div>
+          <div class="project-files-row">
+            <a class="file-link" href="assets/pdfs/presentation-sae201.pdf" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Présentation
+            </a>
+            <a class="file-link" href="assets/pdfs/dossier-technique-sae201.pdf" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Dossier Technique
+            </a>
+            <a class="file-link" href="assets/images/schema-logique-sae201.png" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Schéma logique
+            </a>
+            <a class="file-link" href="assets/images/schema-physique-sae201.png" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Schéma physique
+            </a>
+          </div>
         </div>
       </div>
-      <p class="project-desc">
-        Conception et mise en place d'un réseau d'entreprise multi-sites pour une société de textile. Architecture avec site client (PC industriels) et site fournisseur (DMZ, pare-feu, WAN). Mise en œuvre : plan d'adressage IPv4/IPv6, segmentation VLAN, routage inter-VLAN, ACL, serveurs DHCP/DNS/AD, DMZ, NAT/PAT, tunnel GRE point-à-point et routage OSPF.
-      </p>
-      <div>
-        <div class="project-files-label">Documents & Médias</div>
-        <div class="project-files-row">
-          <a class="file-link" href="assets/pdfs/presentation-sae201.pdf" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Présentation SAE 201
-          </a>
-          <a class="file-link" href="assets/pdfs/dossier-technique-sae201.pdf" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Dossier Technique
-          </a>
-          <a class="file-link" href="assets/images/schema-logique-sae201.png" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Schéma logique
-          </a>
-          <a class="file-link" href="assets/images/schema-physique-sae201.png" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Schéma physique
-          </a>
-        </div>
-      </div>
-    </div>
 
-    <!-- SAE 2.03 -->
-    <div class="project-card">
-      <div class="project-header">
-        <div>
-          <div class="project-date">Mai 2025 – Juin 2025</div>
-          <div class="project-title">SAÉ 2.03 — Gestion des Commandes Sport en Ligne</div>
-          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+      <div class="project-card reveal">
+        <div class="project-card-header">
+          <div>
+            <div class="project-number">PROJET // 003</div>
+            <div class="project-title">SAÉ 2.03 — Gestion des Commandes Sport en Ligne</div>
+            <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+          </div>
+          <div class="project-date-badge">Mai – Juin 2025</div>
         </div>
-        <div class="project-tags">
+        <div class="project-tags-row">
           <span class="ptag">PHP</span>
           <span class="ptag">MySQL</span>
           <span class="ptag">HTML</span>
           <span class="ptag">Bootstrap</span>
+          <span class="ptag">SQL</span>
+        </div>
+        <p class="project-desc">
+          Développement d'un système de gestion des commandes pour un site e-commerce de sport. Base de données SQL (commandes, clients, produits, stocks, entrepôts, employés). Pages PHP pour affichage, ajout, suppression et recherche multi-critères avec résultats en tableaux HTML et graphiques.
+        </p>
+        <div class="project-files">
+          <div class="project-files-label">Documents</div>
+          <div class="project-files-row">
+            <a class="file-link" href="assets/pdfs/presentation-sae203.pdf" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Présentation SAE 203
+            </a>
+          </div>
         </div>
       </div>
-      <p class="project-desc">
-        Développement d'un système de gestion des commandes pour un site e-commerce de sport. Base de données SQL (commandes, clients, produits, stocks, entrepôts, employés). Pages PHP pour affichage, ajout, suppression et recherche multi-critères avec résultats en tableaux HTML et graphiques.
-      </p>
-      <div>
-        <div class="project-files-label">Documents</div>
-        <div class="project-files-row">
-          <a class="file-link" href="assets/pdfs/presentation-sae203.pdf" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Présentation SAE 203
-          </a>
-        </div>
-      </div>
-    </div>
 
-    <!-- Visite Orange -->
-    <div class="project-card">
-      <div class="project-header">
-        <div>
-          <div class="project-date">Avril 2025</div>
-          <div class="project-title">Visite des Locaux d'Orange — Auxerre</div>
-          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+      <div class="project-card reveal">
+        <div class="project-card-header">
+          <div>
+            <div class="project-number">PROJET // 004</div>
+            <div class="project-title">Visite des Locaux d'Orange — Auxerre</div>
+            <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+          </div>
+          <div class="project-date-badge">Avril 2025</div>
         </div>
-        <div class="project-tags">
+        <div class="project-tags-row">
           <span class="ptag">Fibre optique</span>
           <span class="ptag">Câblage cuivre</span>
           <span class="ptag">Télécom</span>
+          <span class="ptag">Boucle locale</span>
+        </div>
+        <p class="project-desc">
+          Visite des installations techniques d'Orange à Auxerre dans le cadre de la formation. Observation de la boucle locale fibre et cuivre, échanges avec des techniciens, découverte des étapes de traitement du signal depuis les clients jusqu'au cœur du réseau.
+        </p>
+        <div class="project-files">
+          <div class="project-files-label">Documents</div>
+          <div class="project-files-row">
+            <a class="file-link" href="assets/pdfs/visite-orange.pdf" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Compte-rendu visite
+            </a>
+          </div>
         </div>
       </div>
-      <p class="project-desc">
-        Visite des installations techniques d'Orange à Auxerre dans le cadre de la formation. Observation de la boucle locale fibre et cuivre, échanges avec des techniciens, découverte des étapes de traitement du signal depuis les clients jusqu'au cœur du réseau.
-      </p>
-      <div>
-        <div class="project-files-label">Documents</div>
-        <div class="project-files-row">
-          <a class="file-link" href="assets/pdfs/visite-orange.pdf" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Visite Locaux Orange
-          </a>
-        </div>
-      </div>
-    </div>
 
-    <!-- SAE 1.02 -->
-    <div class="project-card" style="border-bottom:none; padding-bottom:0;">
-      <div class="project-header">
-        <div>
-          <div class="project-date">Janv. 2025 – Févr. 2025</div>
-          <div class="project-title">SAÉ 1.02 — Conception Réseau Bâtiment IUT</div>
-          <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+      <div class="project-card reveal">
+        <div class="project-card-header">
+          <div>
+            <div class="project-number">PROJET // 005</div>
+            <div class="project-title">SAÉ 1.02 — Conception Réseau Bâtiment IUT</div>
+            <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
+          </div>
+          <div class="project-date-badge">Janv. – Févr. 2025</div>
         </div>
-        <div class="project-tags">
+        <div class="project-tags-row">
           <span class="ptag">VLAN</span>
           <span class="ptag">DHCP</span>
           <span class="ptag">Wi-Fi</span>
           <span class="ptag">IPv4</span>
           <span class="ptag">Windows Server</span>
+          <span class="ptag">AD-DS</span>
+        </div>
+        <p class="project-desc">
+          Conception réseau d'un futur bâtiment R&T à l'IUT d'Auxerre pour l'Université de Bourgogne. Environnement multi-VLAN : DSI, salles TP/TD/CM, imprimante, Wi-Fi, serveurs. Mise en place d'un serveur DHCP, AD-DS Windows Server, politique de sécurité des équipements intermédiaires, points d'accès Wi-Fi avec chiffrement fort et plan d'adressage IPv4 complet.
+        </p>
+        <div class="project-files">
+          <div class="project-files-label">Documents & Médias</div>
+          <div class="project-files-row">
+            <a class="file-link" href="assets/pdfs/document-sae102.pdf" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Document projet
+            </a>
+            <a class="file-link" href="assets/images/schema-logique-sae102.png" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Schéma logique
+            </a>
+            <a class="file-link" href="assets/images/schema-physique-sae102.png" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Schéma physique
+            </a>
+            <a class="file-link" href="assets/images/plan-adressage-sae102.png" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Plan d'adressage IPv4
+            </a>
+            <a class="file-link" href="assets/images/creation-vlan-sae102.png" target="_blank">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Création des VLAN
+            </a>
+          </div>
         </div>
       </div>
-      <p class="project-desc">
-        Conception réseau d'un futur bâtiment R&T à l'IUT d'Auxerre pour l'Université de Bourgogne. Environnement multi-VLAN : DSI, salles TP/TD/CM, imprimante, Wi-Fi, serveurs. Mise en place d'un serveur DHCP, AD-DS Windows Server, politique de sécurité des équipements intermédiaires, points d'accès Wi-Fi avec chiffrement fort et plan d'adressage IPv4 complet.
-      </p>
-      <div>
-        <div class="project-files-label">Documents & Médias</div>
-        <div class="project-files-row">
-          <a class="file-link" href="assets/pdfs/document-sae102.pdf" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Document du projet
-          </a>
-          <a class="file-link" href="assets/images/schema-logique-sae102.png" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Schéma logique
-          </a>
-          <a class="file-link" href="assets/images/schema-physique-sae102.png" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Schéma physique
-          </a>
-          <a class="file-link" href="assets/images/plan-adressage-sae102.png" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Plan d'adressage IPv4
-          </a>
-          <a class="file-link" href="assets/images/creation-vlan-sae102.png" target="_blank">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Création des VLAN
-          </a>
-        </div>
-      </div>
-    </div>
 
+    </div>
   </section>
 
-  <!-- 04 CERTIFICATIONS -->
+  <div class="divider"></div>
+
+  <!-- CERTIFICATIONS -->
   <section id="certifications" class="section reveal">
-    <div class="section-header">
-      <div class="section-num">04 — Certifications</div>
-      <h2>Certifications & MOOC</h2>
-    </div>
+    <div class="section-tag">04 — Certifications</div>
+    <h2>Certifications & MOOC</h2>
+    <p class="section-sub">Formations et certifications obtenues en parallèle du cursus académique.</p>
     <div class="certs-grid">
-      <div class="cert-item"><div class="cert-dot"></div><span>MOOC ANSSI</span></div>
-      <div class="cert-item"><div class="cert-dot"></div><span>MOOC RGPD — CNIL</span></div>
-      <div class="cert-item"><div class="cert-dot"></div><span>Certificat PIX</span></div>
-      <div class="cert-item"><div class="cert-dot"></div><span>Cisco CCNA 1 & 3</span></div>
-      <div class="cert-item"><div class="cert-dot"></div><span>3CX Basic</span></div>
-      <div class="cert-item"><div class="cert-dot"></div><span>Fortinet NSE1 & NSE2</span></div>
+      <div class="cert-item"><div class="cert-icon">🛡️</div><span>MOOC ANSSI</span></div>
+      <div class="cert-item"><div class="cert-icon">⚖️</div><span>MOOC RGPD — CNIL</span></div>
+      <div class="cert-item"><div class="cert-icon">📋</div><span>Certificat PIX</span></div>
+      <div class="cert-item"><div class="cert-icon">🌐</div><span>Cisco CCNA 1 & 3</span></div>
+      <div class="cert-item"><div class="cert-icon">📞</div><span>3CX Basic</span></div>
+      <div class="cert-item"><div class="cert-icon">🔒</div><span>Fortinet NSE1 & NSE2</span></div>
     </div>
   </section>
 
@@ -689,14 +1098,83 @@
 
 <!-- FOOTER -->
 <footer>
-  <span>Hissein Alio — Cybersécurité & Réseaux</span>
-  <span>Linkedin: Hissein ALIO</span>
+  <div class="footer-logo">[HA] · Hissein Alio — 2026</div>
+  <div class="footer-links">
+    <a href="mailto:aliohisseinalio235@gmail.com">aliohisseinalio235@gmail.com</a>
+    <a href="tel:0753903481">07 53 90 34 81</a>
+    <a href="https://github.com/IUTALIO" target="_blank">GitHub</a>
+  </div>
 </footer>
 
+<style>
+  @keyframes blink { 50% { opacity: 0; } }
+</style>
+
 <script>
+  // Scroll nav
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+    // Active nav link
+    const sections = ['about','skills','projets','certifications'];
+    let current = '';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 120) current = id;
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+
+  // Typing effect
+  const lines = [
+    'BUT R&T · Parcours Cybersécurité',
+    'Technicien Systèmes & Réseaux',
+    'Alternance disponible · Sept. 2026'
+  ];
+  let li = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typed');
+
+  function type() {
+    const current = lines[li];
+    if (!deleting) {
+      el.textContent = current.slice(0, ci + 1);
+      ci++;
+      if (ci === current.length) {
+        deleting = true;
+        setTimeout(type, 1800);
+        return;
+      }
+    } else {
+      el.textContent = current.slice(0, ci - 1);
+      ci--;
+      if (ci === 0) {
+        deleting = false;
+        li = (li + 1) % lines.length;
+      }
+    }
+    setTimeout(type, deleting ? 40 : 65);
+  }
+  type();
+
+  // Scroll reveal
   const obs = new IntersectionObserver(
     entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); }),
-    { threshold: 0.08 }
+    { threshold: 0.07 }
   );
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
