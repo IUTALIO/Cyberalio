@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Portfolio Alio</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Alio | Cybersécurité & Réseaux</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <style>
@@ -16,11 +16,55 @@
             --accent: #1a6b4a;
             --accent-light: #e8f4ee;
             --white: #ffffff;
+            --card-bg: #ffffff;
+            --tag-bg: #f4f3ef;
             --shadow-sm: 0 2px 12px rgba(0,0,0,0.03);
             --shadow-md: 0 8px 30px rgba(0,0,0,0.05);
             --shadow-lg: 0 20px 50px rgba(0,0,0,0.08);
+            --glass-bg: rgba(255,255,255,0.7);
+            --nav-glass: rgba(250,250,248,0.85);
             --radius: 0.75rem;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark {
+            --bg: #121212;
+            --bg2: #1e1e1e;
+            --text: #eaeaea;
+            --muted: #a0a0a0;
+            --border: #2a2a2a;
+            --accent: #2ecc71;
+            --accent-light: #1a2e22;
+            --white: #1c1c1c;
+            --card-bg: #1c1c1c;
+            --tag-bg: #1e1e1e;
+            --shadow-sm: 0 2px 12px rgba(0,0,0,0.2);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.3);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.4);
+            --glass-bg: rgba(28,28,28,0.7);
+            --nav-glass: rgba(18,18,18,0.85);
+        }
+        .dark .hero-card-stats,
+        .dark .project-card,
+        .dark .skill-card,
+        .dark .cert-item,
+        .dark .file-link,
+        .dark .q-pill {
+            border-color: var(--border);
+        }
+        .dark .btn-light {
+            color: var(--text);
+            border-color: var(--border);
+        }
+        .dark .btn-light:hover {
+            background: var(--bg2);
+        }
+        .dark .hero-tag {
+            background: var(--bg2);
+            border-color: var(--border);
+        }
+        .dark #hero-particles {
+            opacity: 0.35;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,12 +77,27 @@
             line-height: 1.6;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            transition: background 0.4s, color 0.4s;
         }
 
-        /* CUSTOM CURSOR */
-        
+        /* SKIP LINK */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 1rem;
+            background: var(--accent);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            z-index: 2000;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: top 0.3s;
+        }
+        .skip-link:focus {
+            top: 1rem;
+        }
 
-        /* BACK TO TOP */
         #back-to-top {
             position: fixed;
             bottom: 2rem;
@@ -70,7 +129,6 @@
             transform: translateY(-3px);
         }
 
-        /* PARTICLES CANVAS */
         #hero-particles {
             position: absolute;
             top: 0;
@@ -82,7 +140,6 @@
             opacity: 0.6;
         }
 
-        /* NAV */
         nav {
             position: fixed;
             top: 0;
@@ -93,11 +150,11 @@
             align-items: center;
             justify-content: space-between;
             padding: 1rem 5vw;
-            background: rgba(250,250,248,0.85);
+            background: var(--nav-glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid transparent;
-            transition: border-color 0.4s, box-shadow 0.4s, padding 0.3s;
+            transition: border-color 0.4s, box-shadow 0.4s, padding 0.3s, background 0.4s;
         }
         nav.scrolled {
             border-bottom-color: var(--border);
@@ -115,6 +172,12 @@
         }
         .nav-logo span {
             color: var(--accent);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .nav-links {
@@ -154,7 +217,6 @@
             color: var(--text);
         }
 
-        /* HAMBURGER */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -183,7 +245,6 @@
             transform: rotate(-45deg) translate(5px, -5px);
         }
 
-        /* HERO */
         #hero {
             position: relative;
             min-height: 100vh;
@@ -242,7 +303,7 @@
             font-style: italic;
             color: var(--accent);
         }
-        
+
         .hero-desc {
             margin-top: 1.75rem;
             font-size: 0.95rem;
@@ -276,6 +337,7 @@
             border-radius: 6px;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
         .btn-dark {
             background: var(--text);
@@ -305,7 +367,7 @@
         }
 
         .hero-card {
-            background: rgba(255,255,255,0.7);
+            background: var(--glass-bg);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(229, 228, 222, 0.8);
@@ -316,10 +378,15 @@
             position: relative;
             z-index: 2;
             transition: transform 0.3s, box-shadow 0.3s;
+            transform-style: preserve-3d;
+            perspective: 800px;
         }
         .hero-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 25px 60px rgba(0,0,0,0.1);
+        }
+        .dark .hero-card {
+            border-color: var(--border);
         }
 
         .hero-card-stats {
@@ -352,10 +419,11 @@
             font-size: 0.72rem;
             font-weight: 500;
             padding: 0.35rem 0.85rem;
-            background: var(--bg2);
+            background: var(--tag-bg);
             border: 1px solid var(--border);
             border-radius: 4px;
             transition: all 0.2s;
+            cursor: default;
         }
         .hero-tag:hover {
             background: var(--accent-light);
@@ -363,17 +431,16 @@
             color: var(--accent);
         }
 
-        /* WRAPPER */
         .wrapper {
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 5vw;
         }
 
-        /* SECTION */
         .section {
             padding: 7rem 0;
             border-top: 1px solid var(--border);
+            transition: border-color 0.4s;
         }
 
         .section-header {
@@ -399,153 +466,66 @@
             line-height: 1.2;
         }
 
-        /* SKILLS GRID */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-        }
-        .skill-card {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            transition: all 0.35s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-        }
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), transparent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-        .skill-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(26, 107, 74, 0.2);
-        }
-        .skill-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .skill-cat {
-            font-size: 0.68rem;
-            font-weight: 600;
-            color: var(--accent);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 0.6rem;
-        }
-        .skill-card h3 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.1rem;
-            font-weight: 400;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-        .skill-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-        .skill-list li {
-            font-size: 0.83rem;
-            color: var(--muted);
-            padding-left: 1rem;
-            position: relative;
-        }
-        .skill-list li::before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-size: 0.6rem;
-            top: 0.2rem;
-        }
-
-        /* QUALITIES */
-        .q-row {
+        /* FILTRE PROJETS */
+        .filter-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.7rem;
+            gap: 0.5rem;
+            margin-bottom: 2.8rem;
+            align-items: center;
         }
-        .q-pill {
-            font-size: 0.83rem;
-            padding: 0.5rem 1.2rem;
+        .filter-bar .filter-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            margin-right: 0.5rem;
+            text-transform: uppercase;
+        }
+        .filter-btn {
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 0.3rem 0.95rem;
             border: 1px solid var(--border);
-            background: var(--white);
+            background: var(--card-bg);
             border-radius: 100px;
-            transition: all 0.3s;
-            font-weight: 500;
-            box-shadow: var(--shadow-sm);
-        }
-        .q-pill:hover {
-            border-color: var(--accent);
-            background: var(--accent-light);
-            color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(26,107,74,0.1);
-        }
-
-        /* CERTS */
-        .certs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-            gap: 1.2rem;
-        }
-        .cert-item {
+            cursor: pointer;
+            transition: all 0.25s;
             background: var(--white);
-            padding: 1.5rem 1.8rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.9rem;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            transition: all 0.3s;
-            box-shadow: var(--shadow-sm);
+            color: var(--muted);
+            white-space: nowrap;
+            font-family: 'DM Sans', sans-serif;
         }
-        .cert-item:hover {
-            background: var(--accent-light);
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-        .cert-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
+        .filter-btn.active,
+        .filter-btn:hover {
             background: var(--accent);
-            flex-shrink: 0;
-            margin-top: 0.45rem;
-            box-shadow: 0 0 10px rgba(26,107,74,0.3);
+            border-color: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(26,107,74,0.25);
         }
-        .cert-item span {
-            font-size: 0.85rem;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-
-        /* PROJETS */
         .project-card {
             padding: 2.8rem 0;
             border-bottom: 1px solid var(--border);
-            transition: background 0.3s;
+            transition: background 0.3s, opacity 0.4s, transform 0.4s;
             border-radius: var(--radius);
             padding-left: 1.5rem;
             padding-right: 1.5rem;
             margin: 0 -1.5rem;
+            opacity: 1;
+            transform: scale(1);
+        }
+        .project-card.hidden-project {
+            opacity: 0;
+            transform: scale(0.98);
+            pointer-events: none;
+            position: absolute;
+            visibility: hidden;
         }
         .project-card:hover {
             background: rgba(244, 243, 239, 0.6);
+        }
+        .dark .project-card:hover {
+            background: rgba(255,255,255,0.02);
         }
 
         .project-header {
@@ -585,13 +565,14 @@
             font-size: 0.7rem;
             font-weight: 500;
             padding: 0.3rem 0.75rem;
-            background: var(--bg2);
+            background: var(--tag-bg);
             border: 1px solid var(--border);
             border-radius: 4px;
             white-space: nowrap;
             transition: all 0.2s;
+            cursor: pointer;
         }
-        .ptag:hover {
+        .ptag:hover, .ptag.active-tag {
             background: var(--accent-light);
             border-color: var(--accent);
             color: var(--accent);
@@ -624,7 +605,7 @@
             font-size: 0.78rem;
             font-weight: 500;
             padding: 0.5rem 1.1rem;
-            background: var(--white);
+            background: var(--card-bg);
             border: 1px solid var(--border);
             text-decoration: none;
             color: var(--text);
@@ -647,7 +628,135 @@
             transform: translateY(-1px);
         }
 
-        /* FOOTER */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(26, 107, 74, 0.2);
+        }
+        .skill-card:hover::before {
+            transform: scaleX(1);
+        }
+        .skill-cat {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+        .skill-card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+        .skill-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .skill-list li {
+            font-size: 0.83rem;
+            color: var(--muted);
+            padding-left: 1rem;
+            position: relative;
+        }
+        .skill-list li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 0.6rem;
+            top: 0.2rem;
+        }
+
+        .q-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+        .q-pill {
+            font-size: 0.83rem;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            border-radius: 100px;
+            transition: all 0.3s;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+        .q-pill:hover {
+            border-color: var(--accent);
+            background: var(--accent-light);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 1.2rem;
+        }
+        .cert-item {
+            background: var(--card-bg);
+            padding: 1.5rem 1.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.9rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+        }
+        .cert-item:hover {
+            background: var(--accent-light);
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+        .cert-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+            margin-top: 0.45rem;
+            box-shadow: 0 0 10px rgba(26,107,74,0.3);
+        }
+        .cert-item span {
+            font-size: 0.85rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
         footer {
             border-top: 1px solid var(--border);
             padding: 2.5rem 5vw;
@@ -658,6 +767,7 @@
             color: var(--muted);
             flex-wrap: wrap;
             gap: 1rem;
+            background: var(--bg);
         }
         footer a {
             color: var(--accent);
@@ -668,7 +778,6 @@
             opacity: 0.7;
         }
 
-        /* ANIMATIONS */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(24px); }
             to { opacity: 1; transform: translateY(0); }
@@ -700,11 +809,7 @@
             transform: translateY(0);
         }
 
-        /* MOBILE NAV OVERLAY */
         @media (max-width: 768px) {
-            .custom-cursor { display: none; }
-            a, button, .btn, .skill-card, .project-card, .cert-item, .q-pill, .file-link { cursor: pointer; }
-
             .hamburger { display: flex; }
             .nav-links {
                 position: fixed;
@@ -713,7 +818,7 @@
                 width: 70%;
                 max-width: 320px;
                 height: 100vh;
-                background: rgba(250,250,248,0.98);
+                background: var(--nav-glass);
                 backdrop-filter: blur(30px);
                 flex-direction: column;
                 padding: 6rem 2rem 2rem;
@@ -751,38 +856,34 @@
                 height: 38px;
             }
         }
-
-        @media (min-width: 769px) {
-            .project-card:last-child {
-                border-bottom: none;
-                padding-bottom: 0;
-            }
-        }
     </style>
 </head>
 <body>
 
-<!-- CUSTOM CURSOR -->
+<a href="#main-content" class="skip-link">Passer au contenu principal</a>
 
-
-<!-- PARTICLES CANVAS -->
 <canvas id="hero-particles"></canvas>
 
-<!-- NAV -->
 <nav id="navbar">
     <div class="nav-logo">Hissein <span>Alio</span></div>
-    <ul class="nav-links" id="navLinks">
-        <li><a href="#about" data-section="about">Profil</a></li>
-        <li><a href="#skills" data-section="skills">Compétences</a></li>
-        <li><a href="#projets" data-section="projets">Projets</a></li>
-        <li><a href="#certifications" data-section="certifications">Certifications</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about" data-section="about">Profil</a></li>
+            <li><a href="#skills" data-section="skills">Compétences</a></li>
+            <li><a href="#projets" data-section="projets">Projets</a></li>
+            <li><a href="#certifications" data-section="certifications">Certifications</a></li>
+        </ul>
+        <button class="theme-toggle" id="themeToggle" aria-label="Changer le thème">
+            <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
 </nav>
 
-<!-- HERO -->
+<main id="main-content">
 <div id="hero">
     <div class="hero-content">
         <div class="hero-badge">
@@ -803,7 +904,7 @@
         </div>
     </div>
     <div>
-        <div class="hero-card">
+        <div class="hero-card" id="heroCard3D">
             <div class="hero-card-stats">
                 <div>
                     <div class="stat-label">Recherche</div>
@@ -833,7 +934,6 @@
 
 <div class="wrapper">
 
-    <!-- 01 PROFIL -->
     <section id="about" class="section reveal">
         <div class="section-header">
             <div class="section-num">01 — Profil</div>
@@ -856,7 +956,6 @@
         </div>
     </section>
 
-    <!-- 02 COMPÉTENCES -->
     <section id="skills" class="section">
         <div class="section-header reveal">
             <div class="section-num">02 — Compétences</div>
@@ -885,7 +984,7 @@
                 <div class="skill-cat">Sécurité</div>
                 <h3>Active Directory & Protection</h3>
                 <ul class="skill-list">
-                    <li>AD (utilisateurs, droits, GPO, OU) </li>
+                    <li>AD (utilisateurs, droits, GPO, OU)</li>
                     <li>WithSecure (antivirus)</li>
                     <li>Sécurisation équipements</li>
                 </ul>
@@ -919,15 +1018,22 @@
         </div>
     </section>
 
-    <!-- 03 PROJETS -->
     <section id="projets" class="section reveal">
         <div class="section-header">
             <div class="section-num">03 — Projets</div>
             <h2>Projets académiques</h2>
         </div>
+        <div class="filter-bar" id="filterBar">
+            <span class="filter-label">Filtrer :</span>
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            <button class="filter-btn" data-filter="cybersecurite">Cybersécurité</button>
+            <button class="filter-btn" data-filter="reseau">Réseau</button>
+            <button class="filter-btn" data-filter="dev">Développement</button>
+            <button class="filter-btn" data-filter="telecom">Télécom</button>
+        </div>
 
-        <!-- Escape Game -->
-        <div class="project-card">
+        <div id="projectsContainer">
+        <div class="project-card" data-tags="cybersecurite,pedagogie">
             <div class="project-header">
                 <div>
                     <div class="project-date">Mai 2025 – Juil. 2025</div>
@@ -935,13 +1041,13 @@
                     <div class="project-org">IUT Dijon-Auxerre-Nevers · Projet intégratif</div>
                 </div>
                 <div class="project-tags">
-                    <span class="ptag">Cybersécurité</span>
-                    <span class="ptag">Pédagogie</span>
+                    <span class="ptag" data-tag="cybersecurite">Cybersécurité</span>
+                    <span class="ptag" data-tag="pedagogie">Pédagogie</span>
                     <span class="ptag">Travail d'équipe</span>
                 </div>
             </div>
             <p class="project-desc">
-                Conception d'un atelier ludique de sensibilisation à la cybersécurité à destination du grand public. À travers une série d'énigmes, les visiteurs explorent les notions clés : gestion des mots de passe, cryptographie, phishing, réseaux sociaux, ingénierie sociale et Wi-Fi. Dispositif sous forme d'escape game thématique — instructif, amusant et accessible sans connaissances techniques préalables.
+                Conception d'un atelier ludique de sensibilisation à la cybersécurité à destination du grand public. À travers une série d'énigmes, les visiteurs explorent les notions clés : gestion des mots de passe, cryptographie, phishing, réseaux sociaux, ingénierie sociale et Wi-Fi.
             </p>
             <div>
                 <div class="project-files-label">Documents</div>
@@ -966,8 +1072,7 @@
             </div>
         </div>
 
-        <!-- SAE 2.01 -->
-        <div class="project-card">
+        <div class="project-card" data-tags="reseau,vlan,ad,ipv6,ospf">
             <div class="project-header">
                 <div>
                     <div class="project-date">Mai 2025 – Juin 2025</div>
@@ -975,15 +1080,15 @@
                     <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
                 </div>
                 <div class="project-tags">
-                    <span class="ptag">VLAN</span>
-                    <span class="ptag">Active Directory</span>
-                    <span class="ptag">IPv4 / IPv6</span>
+                    <span class="ptag" data-tag="vlan">VLAN</span>
+                    <span class="ptag" data-tag="ad">Active Directory</span>
+                    <span class="ptag" data-tag="ipv6">IPv4 / IPv6</span>
                     <span class="ptag">GRE</span>
-                    <span class="ptag">OSPF</span>
+                    <span class="ptag" data-tag="ospf">OSPF</span>
                 </div>
             </div>
             <p class="project-desc">
-                Conception et mise en place d'un réseau d'entreprise multi-sites pour une société de textile. Architecture avec site client (PC industriels) et site fournisseur (DMZ, pare-feu, WAN). Mise en œuvre : plan d'adressage IPv4/IPv6, segmentation VLAN, routage inter-VLAN, ACL, serveurs DHCP/DNS/AD, DMZ, NAT/PAT, tunnel GRE point-à-point et routage OSPF.
+                Conception et mise en place d'un réseau d'entreprise multi-sites pour une société de textile. Architecture avec site client et site fournisseur (DMZ, pare-feu, WAN). Mise en œuvre : plan d'adressage, segmentation VLAN, routage inter-VLAN, ACL, serveurs DHCP/DNS/AD, DMZ, NAT/PAT, tunnel GRE et OSPF.
             </p>
             <div>
                 <div class="project-files-label">Documents & Médias</div>
@@ -1008,8 +1113,7 @@
             </div>
         </div>
 
-        <!-- SAE 2.03 -->
-        <div class="project-card">
+        <div class="project-card" data-tags="dev,php,mysql,html">
             <div class="project-header">
                 <div>
                     <div class="project-date">Mai 2025 – Juin 2025</div>
@@ -1017,14 +1121,14 @@
                     <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
                 </div>
                 <div class="project-tags">
-                    <span class="ptag">PHP</span>
-                    <span class="ptag">MySQL</span>
-                    <span class="ptag">HTML</span>
+                    <span class="ptag" data-tag="php">PHP</span>
+                    <span class="ptag" data-tag="mysql">MySQL</span>
+                    <span class="ptag" data-tag="html">HTML</span>
                     <span class="ptag">Bootstrap</span>
                 </div>
             </div>
             <p class="project-desc">
-                Développement d'un système de gestion des commandes pour un site e-commerce de sport. Base de données SQL (commandes, clients, produits, stocks, entrepôts, employés). Pages PHP pour affichage, ajout, suppression et recherche multi-critères avec résultats en tableaux HTML et graphiques.
+                Développement d'un système de gestion des commandes pour un site e-commerce de sport. Base de données SQL, pages PHP pour affichage, ajout, suppression et recherche multi-critères avec résultats en tableaux HTML et graphiques.
             </p>
             <div>
                 <div class="project-files-label">Documents</div>
@@ -1037,22 +1141,21 @@
             </div>
         </div>
 
-        <!-- Visite Orange -->
-        <div class="project-card">
+        <div class="project-card" data-tags="telecom,fibre,cuivre">
             <div class="project-header">
                 <div>
                     <div class="project-date">Avril 2025</div>
-                    <div class="project-title">Visite des Locaux d'Orange — Auxerre</div>
+                    <div class="project-title">Visite des Locaux d'Orange Auxerre</div>
                     <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
                 </div>
                 <div class="project-tags">
-                    <span class="ptag">Fibre optique</span>
-                    <span class="ptag">Câblage cuivre</span>
-                    <span class="ptag">Télécom</span>
+                    <span class="ptag" data-tag="fibre">Fibre optique</span>
+                    <span class="ptag" data-tag="cuivre">Câblage cuivre</span>
+                    <span class="ptag" data-tag="telecom">Télécom</span>
                 </div>
             </div>
             <p class="project-desc">
-                Visite des installations techniques d'Orange à Auxerre dans le cadre de la formation. Observation de la boucle locale fibre et cuivre, échanges avec des techniciens, découverte des étapes de traitement du signal depuis les clients jusqu'au cœur du réseau.
+                Visite des installations techniques d'Orange à Auxerre dans le cadre de la formation. Observation de la boucle locale fibre et cuivre, échanges avec des techniciens, découverte des étapes de traitement du signal.
             </p>
             <div>
                 <div class="project-files-label">Documents</div>
@@ -1065,8 +1168,7 @@
             </div>
         </div>
 
-        <!-- SAE 1.02 -->
-        <div class="project-card" style="border-bottom:none; padding-bottom:0;">
+        <div class="project-card" data-tags="reseau,vlan,dhcp,wifi,ipv4">
             <div class="project-header">
                 <div>
                     <div class="project-date">Janv. 2025 - Févr. 2025</div>
@@ -1074,15 +1176,15 @@
                     <div class="project-org">IUT Dijon-Auxerre-Nevers</div>
                 </div>
                 <div class="project-tags">
-                    <span class="ptag">VLAN</span>
-                    <span class="ptag">DHCP</span>
-                    <span class="ptag">Wi-Fi</span>
-                    <span class="ptag">IPv4</span>
+                    <span class="ptag" data-tag="vlan">VLAN</span>
+                    <span class="ptag" data-tag="dhcp">DHCP</span>
+                    <span class="ptag" data-tag="wifi">Wi-Fi</span>
+                    <span class="ptag" data-tag="ipv4">IPv4</span>
                     <span class="ptag">Windows Server</span>
                 </div>
             </div>
             <p class="project-desc">
-                Conception réseau d'un futur bâtiment R&T à l'IUT d'Auxerre pour l'Université de Bourgogne. Environnement multi-VLAN : DSI, salles TP/TD/CM, imprimante, Wi-Fi, serveurs. Mise en place d'un serveur DHCP, AD-DS Windows Server, politique de sécurité des équipements intermédiaires, points d'accès Wi-Fi avec chiffrement fort et plan d'adressage IPv4 complet.
+                Conception réseau d'un futur bâtiment R&T à l'IUT d'Auxerre pour l'Université de Bourgogne. Environnement multi-VLAN : DSI, salles TP/TD/CM, imprimante, Wi-Fi, serveurs. Mise en place d'un serveur DHCP, AD-DS Windows Server, politique de sécurité des équipements et plan d'adressage IPv4 complet.
             </p>
             <div>
                 <div class="project-files-label">Documents & Médias</div>
@@ -1110,9 +1212,9 @@
                 </div>
             </div>
         </div>
+        </div>
     </section>
 
-    <!-- 04 CERTIFICATIONS -->
     <section id="certifications" class="section reveal">
         <div class="section-header">
             <div class="section-num">04 — Certifications</div>
@@ -1129,182 +1231,231 @@
     </section>
 
 </div>
+</main>
 
-<!-- BACK TO TOP -->
 <button id="back-to-top" aria-label="Retour en haut">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
 
-<!-- FOOTER -->
 <footer>
     <span>© 2025 Hissein Alio - Cybersécurité & Réseaux</span>
     <span>
-        <a href="https://www.linkedin.com/in/hissein-alio-37796a349/" target="_blank" rel="noopener">LinkedIn</a> · 
-        <a href="https://www.linkedin.com/in/hissein-alio-37796a349">Email</a>
+        <a href="https://www.linkedin.com/in/hissein-alio-37796a349/" target="_blank" rel="noopener">LinkedIn</a>
     </span>
 </footer>
 
 <script>
-    // CUSTOM CURSOR
-    const cursor = document.getElementById('cursor');
-    if (cursor && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+    (function() {
+        // THEME TOGGLE
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            body.classList.add('dark');
+        }
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
         });
-        document.querySelectorAll('a, button, .btn, .skill-card, .project-card, .cert-item, .q-pill, .file-link').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-    } else if (cursor) {
-        cursor.style.display = 'none';
-    }
 
-    // PARTICLES
-    const canvas = document.getElementById('hero-particles');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        const maxParticles = 60;
-        
-        function resizeCanvas() {
-            const hero = document.getElementById('hero');
-            canvas.width = hero.offsetWidth;
-            canvas.height = hero.offsetHeight;
-        }
-        
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.3 + 0.1;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(26, 107, 74, ${this.opacity})`;
-                ctx.fill();
-            }
-        }
+        // PROJECT FILTERING
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
 
-        function initParticles() {
-            resizeCanvas();
-            particles = [];
-            for (let i = 0; i < maxParticles; i++) {
-                particles.push(new Particle());
-            }
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+        function filterProjects(tag) {
+            projectCards.forEach(card => {
+                const tags = card.getAttribute('data-tags') || '';
+                if (tag === 'all' || tags.includes(tag)) {
+                    card.classList.remove('hidden-project');
+                } else {
+                    card.classList.add('hidden-project');
+                }
             });
-            // Draw connections
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
+        }
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterProjects(btn.getAttribute('data-filter'));
+            });
+        });
+
+        // Click sur un tag dans une carte pour filtrer immédiatement
+        document.querySelectorAll('.ptag[data-tag]').forEach(tagEl => {
+            tagEl.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const tagValue = tagEl.getAttribute('data-tag');
+                filterButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.getAttribute('data-filter') === tagValue) b.classList.add('active');
+                });
+                filterProjects(tagValue);
+                document.getElementById('projets').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // HERO CARD 3D TILT
+        const heroCard = document.getElementById('heroCard3D');
+        if (heroCard && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            heroCard.addEventListener('mousemove', (e) => {
+                const rect = heroCard.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / centerY * -5;
+                const rotateY = (x - centerX) / centerX * 5;
+                heroCard.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+            });
+            heroCard.addEventListener('mouseleave', () => {
+                heroCard.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        }
+
+        // PARTICULES INTERACTIVES
+        const canvas = document.getElementById('hero-particles');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const maxParticles = 60;
+            let mouseX = -1000, mouseY = -1000;
+            
+            function resizeCanvas() {
+                const hero = document.getElementById('hero');
+                canvas.width = hero.offsetWidth;
+                canvas.height = hero.offsetHeight;
+            }
+            
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.opacity = Math.random() * 0.3 + 0.1;
+                }
+                update() {
+                    const dx = mouseX - this.x;
+                    const dy = mouseY - this.y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(26, 107, 74, ${0.06 * (1 - dist / 120)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
+                    if (dist < 150 && mouseX > 0) {
+                        const force = (150 - dist) / 150;
+                        this.x -= dx * force * 0.02;
+                        this.y -= dy * force * 0.02;
+                    }
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(26, 107, 74, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                resizeCanvas();
+                particles = [];
+                for (let i = 0; i < maxParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(26, 107, 74, ${0.06 * (1 - dist / 120)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
                     }
                 }
+                requestAnimationFrame(animateParticles);
             }
-            requestAnimationFrame(animateParticles);
+
+            document.getElementById('hero').addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mouseX = e.clientX - rect.left;
+                mouseY = e.clientY - rect.top;
+            });
+            document.getElementById('hero').addEventListener('mouseleave', () => {
+                mouseX = -1000;
+                mouseY = -1000;
+            });
+
+            window.addEventListener('resize', initParticles);
+            initParticles();
+            animateParticles();
         }
 
-        window.addEventListener('resize', initParticles);
-        initParticles();
-        animateParticles();
-    }
-
-    // NAV SCROLL EFFECT
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-
-    // BACK TO TOP
-    const backToTop = document.getElementById('back-to-top');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 500) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-    });
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // MOBILE MENU
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navLinks.classList.toggle('active');
-    });
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('active');
+        // BACK TO TOP & NAV SCROLL
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            backToTop.classList.toggle('visible', window.scrollY > 500);
         });
-    });
-
-    // ACTIVE NAV LINK ON SCROLL
-    const sections = document.querySelectorAll('section[id]');
-    const navItems = document.querySelectorAll('.nav-links a');
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 120;
-            if (window.scrollY >= sectionTop) {
-                current = section.getAttribute('id');
-            }
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-        navItems.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('data-section') === current) {
-                link.classList.add('active');
-            }
-        });
-    });
 
-    // REVEAL ANIMATIONS
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
+        // MOBILE MENU
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ACTIVE NAV LINK & REVEAL
+        const sections = document.querySelectorAll('section[id]');
+        const navItems = document.querySelectorAll('.nav-links a');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                if (window.scrollY >= section.offsetTop - 150) {
+                    current = section.getAttribute('id');
                 }
             });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-    );
-    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => observer.observe(el));
+            navItems.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === current) link.classList.add('active');
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('show');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => observer.observe(el));
+    })();
 </script>
 </body>
 </html>
